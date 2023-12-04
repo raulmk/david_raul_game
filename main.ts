@@ -1,24 +1,21 @@
 namespace SpriteKind {
     export const Button = SpriteKind.create()
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (level == 1) {
-        if (saltos == 2) {
-            mySprite.vy += -300
-            saltos = 1
-        } else if (saltos == 1) {
-            mySprite.vy += -300
-            saltos = 0
-        } else {
-        	
-        }
-    }
-})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite2, location2) {
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
 	
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (level == 1) {
+        animation.runImageAnimation(
+        mySprite,
+        assets.animation`camina_derecha`,
+        200,
+        false
+        )
+    }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -30,14 +27,17 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         )
     }
 })
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
-        animation.runImageAnimation(
-        mySprite,
-        assets.animation`camina_derecha`,
-        200,
-        false
-        )
+        if (saltos == 2) {
+            mySprite.x += -300
+            saltos = 1
+        } else if (saltos == 1) {
+            mySprite.x += -300
+            saltos = 0
+        } else {
+        	
+        }
     }
 })
 function Level_Control () {
@@ -78,8 +78,8 @@ let lava_level = 0
 let Cursor: Sprite = null
 let Help: Sprite = null
 let Play: Sprite = null
-let mySprite: Sprite = null
 let saltos = 0
+let mySprite: Sprite = null
 let level = 0
 level = 0
 Level_Control()
