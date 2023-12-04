@@ -18,7 +18,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite2, loc
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
-	
+    game.gameOver(true)
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
