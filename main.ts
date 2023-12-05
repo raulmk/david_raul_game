@@ -6,6 +6,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite2, loc
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
     game.gameOver(true)
+    level_game = level_game + 1
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -52,18 +53,7 @@ function Level_Control () {
         Help.setPosition(76, 82)
         controller.moveSprite(Cursor)
     } else if (level == 1) {
-        sprites.destroy(Play)
-        sprites.destroy(Help)
-        sprites.destroy(Cursor)
-        tiles.setCurrentTilemap(tilemap`level2`)
-        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
-        controller.moveSprite(mySprite, 150, 0)
-        mySprite.ay = 800
-        scene.cameraFollowSprite(mySprite)
-        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
-        lava_level = 0
-        one = false
-        two = false
+    	
     } else {
     	
     }
@@ -78,6 +68,27 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Button, function (sprite3, other
         Level_Control()
     }
 })
+function level_game_cntrl () {
+    if (lava_level == 1) {
+        level_game = 1
+        sprites.destroy(Play)
+        sprites.destroy(Help)
+        sprites.destroy(Cursor)
+        tiles.setCurrentTilemap(tilemap`level2`)
+        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
+        controller.moveSprite(mySprite, 150, 0)
+        mySprite.ay = 800
+        scene.cameraFollowSprite(mySprite)
+        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
+        lava_level = 0
+        one = false
+        two = false
+    } else if (lava_level == 2) {
+    	
+    } else {
+    	
+    }
+}
 let two = false
 let one = false
 let lava_level = 0
@@ -86,6 +97,7 @@ let Help: Sprite = null
 let Play: Sprite = null
 let saltos = 0
 let mySprite: Sprite = null
+let level_game = 0
 let level = 0
 level = 0
 Level_Control()
