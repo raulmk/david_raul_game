@@ -1,22 +1,27 @@
 namespace SpriteKind {
     export const Button = SpriteKind.create()
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (level == 1) {
+        if (saltos == 2) {
+            mySprite.vy += -550
+            mySprite.sayText(saltos)
+            saltos = 1
+        } else if (saltos == 1) {
+            mySprite.vy += -550
+            mySprite.sayText(saltos)
+            saltos = 0
+        } else {
+            mySprite.sayText(saltos)
+        }
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite2, location2) {
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
     game.gameOver(true)
     level_game = level_game + 1
-})
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (level == 1) {
-        animation.runImageAnimation(
-        mySprite,
-        assets.animation`camina_derecha`,
-        200,
-        false
-        )
-    }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -28,19 +33,14 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         )
     }
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
-        if (saltos == 2) {
-            mySprite.vy += -250
-            mySprite.sayText(mySprite.vy)
-            saltos = saltos - 1
-        } else if (saltos == 1) {
-            mySprite.vy += -150
-            mySprite.sayText(saltos)
-            saltos = 0
-        } else {
-            mySprite.sayText(saltos)
-        }
+        animation.runImageAnimation(
+        mySprite,
+        assets.animation`camina_derecha`,
+        200,
+        false
+        )
     }
 })
 function Level_Control () {
@@ -53,7 +53,11 @@ function Level_Control () {
         Help.setPosition(76, 82)
         controller.moveSprite(Cursor)
     } else if (level == 1) {
-    	
+        level_game = 1
+        sprites.destroy(Play)
+        sprites.destroy(Help)
+        sprites.destroy(Cursor)
+        level_game_cntrl()
     } else {
     	
     }
@@ -70,10 +74,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Button, function (sprite3, other
 })
 function level_game_cntrl () {
     if (lava_level == 1) {
-        level_game = 1
-        sprites.destroy(Play)
-        sprites.destroy(Help)
-        sprites.destroy(Cursor)
         tiles.setCurrentTilemap(tilemap`level2`)
         mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
         controller.moveSprite(mySprite, 150, 0)
@@ -81,10 +81,14 @@ function level_game_cntrl () {
         scene.cameraFollowSprite(mySprite)
         tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
         lava_level = 0
-        one = false
-        two = false
     } else if (lava_level == 2) {
-    	
+        tiles.setCurrentTilemap(tilemap`level2`)
+        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
+        controller.moveSprite(mySprite, 150, 0)
+        mySprite.ay = 800
+        scene.cameraFollowSprite(mySprite)
+        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
+        lava_level = 0
     } else {
     	
     }
@@ -95,9 +99,9 @@ let lava_level = 0
 let Cursor: Sprite = null
 let Help: Sprite = null
 let Play: Sprite = null
-let saltos = 0
-let mySprite: Sprite = null
 let level_game = 0
+let mySprite: Sprite = null
+let saltos = 0
 let level = 0
 level = 0
 Level_Control()

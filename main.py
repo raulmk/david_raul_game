@@ -3,16 +3,18 @@ class SpriteKind:
     Button = SpriteKind.create()
 
 def on_a_pressed():
+    global saltos
     if level == 1:
-        global saltos
         if saltos == 2:
-            mySprite.vy += -300
+            mySprite.vy += -250
+            mySprite.say_text(saltos)
             saltos = 1
         elif saltos == 1:
-            mySprite.vy += -300
+            mySprite.vy += -150
+            mySprite.say_text(saltos)
             saltos = 0
         else:
-            pass
+            mySprite.say_text(saltos)
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_overlap_tile(sprite2, location2):
@@ -24,7 +26,9 @@ scene.on_overlap_tile(SpriteKind.player,
     on_overlap_tile)
 
 def on_overlap_tile2(sprite, location):
-    pass
+    global level_game
+    game.game_over(True)
+    level_game = level_game + 1
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         meta
@@ -52,7 +56,7 @@ def on_right_pressed():
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def Level_Control():
-    global Play, Help, Cursor, mySprite, lava_level
+    global Play, Help, Cursor, level_game, mySprite, lava_level, one, two
     if level == 0:
         scene.set_background_image(assets.image("""
             myImage
@@ -70,6 +74,7 @@ def Level_Control():
         Help.set_position(76, 82)
         controller.move_sprite(Cursor)
     elif level == 1:
+        level_game = 1
         sprites.destroy(Play)
         sprites.destroy(Help)
         sprites.destroy(Cursor)
@@ -86,6 +91,8 @@ def Level_Control():
             myTile
         """))
         lava_level = 0
+        one = False
+        two = False
     else:
         pass
 
@@ -99,10 +106,20 @@ def on_on_overlap(sprite3, otherSprite):
         Level_Control()
 sprites.on_overlap(SpriteKind.player, SpriteKind.Button, on_on_overlap)
 
+def level_game_cntrl():
+    if lava_level == 1:
+        pass
+    elif lava_level == 2:
+        pass
+    else:
+        pass
+two = False
+one = False
 lava_level = 0
 Cursor: Sprite = None
 Help: Sprite = None
 Play: Sprite = None
+level_game = 0
 mySprite: Sprite = None
 saltos = 0
 level = 0
@@ -119,3 +136,13 @@ def on_update_interval():
             """))
         tiles.set_wall_at(tiles.get_tile_location(index, lava_level * -1 + 102), False)
 game.on_update_interval(2000, on_update_interval)
+
+def on_forever():
+    global saltos, one, two
+    if level == 1:
+        mySprite.ay = 1000
+        if mySprite.is_hitting_tile(CollisionDirection.BOTTOM):
+            saltos = 2
+            one = False
+            two = False
+forever(on_forever)
