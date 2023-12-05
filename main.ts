@@ -30,11 +30,15 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         if (saltos == 2) {
-            mySprite.vy += -300
-            saltos = 1
+            mySprite.vy += -250
+            mySprite.sayText(mySprite.vy)
+            saltos = saltos - 1
         } else if (saltos == 1) {
-            mySprite.vy += -300
+            mySprite.vy += -150
+            mySprite.sayText(saltos)
             saltos = 0
+        } else {
+            mySprite.sayText(saltos)
         }
     }
 })
@@ -58,6 +62,8 @@ function Level_Control () {
         scene.cameraFollowSprite(mySprite)
         tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
         lava_level = 0
+        one = false
+        two = false
     } else {
     	
     }
@@ -72,6 +78,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Button, function (sprite3, other
         Level_Control()
     }
 })
+let two = false
+let one = false
 let lava_level = 0
 let Cursor: Sprite = null
 let Help: Sprite = null
@@ -93,6 +101,8 @@ forever(function () {
         mySprite.ay = 1000
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             saltos = 2
+            one = false
+            two = false
         }
     }
 })
