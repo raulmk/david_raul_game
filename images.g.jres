@@ -40,9 +40,14 @@
         "displayName": "myImage2"
     },
     "image9": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "data": "hwQQABAAAAAAAP////8AAAAAHxER8QAAAAD///H/AAAAAB8REfEAAAAA/////wAAAAAfERHxAAAAAB//8fEAAAAAH///8QAAAAD/////AAAAAB8REfEAAAAA////8QAAAAD/////AAAAAB8REfEAAAAAH/8f/wAAAAD/EfH/AAAAAP////8AAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "myImage3"
+        "displayName": "help"
+    },
+    "image10": {
+        "data": "hwQQABAAAAAAAP////8AAAAALyIi8gAAAAAv/y//AAAAAP8i8v8AAAAA/////wAAAAAvIiLyAAAAAP////IAAAAA/////wAAAAD/IiLyAAAAAC//8v8AAAAA/yIi8gAAAAD/////AAAAAC/y//8AAAAA/yIi8gAAAAAv8v//AAAAAP////8AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "play"
     },
     "anim2": {
         "namespace": "myAnimations",
