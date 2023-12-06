@@ -1,16 +1,7 @@
 @namespace
 class SpriteKind:
     Button = SpriteKind.create()
-
-def on_on_overlap(sprite32, otherSprite):
-    global level
-    if otherSprite == Play and controller.A.is_pressed():
-        level = 1
-        Level_Control()
-    if otherSprite == Help and controller.A.is_pressed():
-        level = 2
-        Level_Control()
-sprites.on_overlap(SpriteKind.player, SpriteKind.Button, on_on_overlap)
+    Cursor = SpriteKind.create()
 
 def on_overlap_tile(sprite2, location2):
     if level == 1 and controller.up.is_pressed():
@@ -415,11 +406,11 @@ def on_a_pressed():
     global saltos
     if level == 1:
         if saltos == 2:
-            mySprite.x += -250
+            mySprite.vy += -250
             mySprite.say_text(saltos)
             saltos = 1
         elif saltos == 1:
-            mySprite.x += -200
+            mySprite.vy += -200
             mySprite.say_text(saltos)
             saltos = 0
         else:
@@ -435,8 +426,9 @@ scene.on_overlap_tile(SpriteKind.player,
     on_overlap_tile3)
 
 def Level_Control():
-    global Play, Help, Cursor, level_game
+    global Play, Help, Cursor2, level_game
     if level == 0:
+        sprites.destroy(sprite34)
         sprite35 = create_sprite_menu()
         sprite35.set_position(81, 60)
         Play = sprites.create(assets.image("""
@@ -445,17 +437,17 @@ def Level_Control():
         Help = sprites.create(assets.image("""
             help
         """), SpriteKind.Button)
-        Cursor = sprites.create(assets.image("""
+        Cursor2 = sprites.create(assets.image("""
             user
-        """), SpriteKind.player)
+        """), SpriteKind.Cursor)
         Play.set_position(35, 91)
         Help.set_position(120, 91)
-        controller.move_sprite(Cursor)
+        controller.move_sprite(Cursor2)
     elif level == 1:
         level_game = 1
         sprites.destroy(Play)
         sprites.destroy(Help)
-        sprites.destroy(Cursor)
+        sprites.destroy(Cursor2)
         info.set_life(3)
         level_game_cntrl()
     else:
@@ -632,6 +624,17 @@ def create_sprite_infierno():
         SpriteKind.player)
     # sprite2.set_position(76, 81)
     return sprite322
+
+def on_on_overlap(sprite32, otherSprite):
+    global level
+    if otherSprite == Play and controller.A.is_pressed():
+        level = 1
+        Level_Control()
+    if otherSprite == Help and controller.A.is_pressed():
+        level = 2
+        Level_Control()
+sprites.on_overlap(SpriteKind.Cursor, SpriteKind.Button, on_on_overlap)
+
 def create_sprite_menu():
     global sprite33
     sprite33 = sprites.create(img("""
@@ -764,7 +767,7 @@ def level_game_cntrl():
     if level_game == 1:
         sprites.destroy(mySprite)
         tiles.set_current_tilemap(tilemap("""
-            level4
+            level2
         """))
         mySprite = sprites.create(assets.image("""
             user
@@ -798,14 +801,14 @@ one = False
 lava_level = 0
 sprite33: Sprite = None
 sprite322: Sprite = None
-Cursor: Sprite = None
+Cursor2: Sprite = None
+Help: Sprite = None
+Play: Sprite = None
 saltos = 0
 level_game = 0
 sprite34: Sprite = None
 sprite3: Sprite = None
 mySprite: Sprite = None
-Help: Sprite = None
-Play: Sprite = None
 level = 0
 cinematica()
 level = 0

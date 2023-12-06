@@ -1,16 +1,7 @@
 namespace SpriteKind {
     export const Button = SpriteKind.create()
+    export const Cursor = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Button, function (sprite32, otherSprite) {
-    if (otherSprite == Play && controller.A.isPressed()) {
-        level = 1
-        Level_Control()
-    }
-    if (otherSprite == Help && controller.A.isPressed()) {
-        level = 2
-        Level_Control()
-    }
-})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (sprite2, location2) {
     if (level == 1 && controller.up.isPressed()) {
         animation.runImageAnimation(
@@ -384,11 +375,11 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         if (saltos == 2) {
-            mySprite.x += -250
+            mySprite.vy += -250
             mySprite.sayText(saltos)
             saltos = 1
         } else if (saltos == 1) {
-            mySprite.x += -200
+            mySprite.vy += -200
             mySprite.sayText(saltos)
             saltos = 0
         } else {
@@ -402,11 +393,12 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite22, lo
 function Level_Control () {
     let sprite35: Sprite;
 if (level == 0) {
+        sprites.destroy(sprite34)
         sprite35 = create_sprite_menu()
         sprite35.setPosition(81, 60)
         Play = sprites.create(assets.image`play`, SpriteKind.Button)
         Help = sprites.create(assets.image`help`, SpriteKind.Button)
-        Cursor = sprites.create(assets.image`user`, SpriteKind.Player)
+        Cursor = sprites.create(assets.image`user`, SpriteKind.Cursor)
         Play.setPosition(35, 91)
         Help.setPosition(120, 91)
         controller.moveSprite(Cursor)
@@ -590,6 +582,16 @@ function create_sprite_infierno () {
     // sprite2.set_position(76, 81)
     return sprite32
 }
+sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, otherSprite) {
+    if (otherSprite == Play && controller.A.isPressed()) {
+        level = 1
+        Level_Control()
+    }
+    if (otherSprite == Help && controller.A.isPressed()) {
+        level = 2
+        Level_Control()
+    }
+})
 function create_sprite_menu () {
     sprite33 = sprites.create(img`
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccceeeeeeeeccccccbbbbd1ddd111111111111d1dddddddddddddddd111111d11111111111111dd111dddddbb
@@ -719,7 +721,7 @@ function create_sprite_menu () {
 function level_game_cntrl () {
     if (level_game == 1) {
         sprites.destroy(mySprite)
-        tiles.setCurrentTilemap(tilemap`level4`)
+        tiles.setCurrentTilemap(tilemap`level2`)
         mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
         controller.moveSprite(mySprite, 150, 0)
         mySprite.ay = 800
@@ -747,13 +749,13 @@ let lava_level = 0
 let sprite33: Sprite = null
 let sprite32: Sprite = null
 let Cursor: Sprite = null
+let Help: Sprite = null
+let Play: Sprite = null
 let saltos = 0
 let level_game = 0
 let sprite34: Sprite = null
 let sprite3: Sprite = null
 let mySprite: Sprite = null
-let Help: Sprite = null
-let Play: Sprite = null
 let level = 0
 cinematica()
 level = 0
