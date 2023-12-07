@@ -1,33 +1,17 @@
 namespace SpriteKind {
     export const Button = SpriteKind.create()
     export const Cursor = SpriteKind.create()
+    export const Fondo = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (sprite2, location2) {
     if (level == 1 && controller.up.isPressed()) {
         animation.runImageAnimation(
         mySprite,
-        [img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `],
+        assets.animation`subiranimacion`,
         200,
         false
         )
-        mySprite.x += -30
+        mySprite.vy += -30
     }
 })
 function create_sprite_raimon () {
@@ -192,11 +176,16 @@ function create_sprite_raimon () {
         fffffffffffffffffffffffffffccffffffffffffffffcbddddddd11ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbbbbddddddddddddddddddddd
         fffffffffffffffffffffffffffccfffffffffffffffcbdddddddd11dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbbddddddbbbbbddddddddddddddddddddd
         fffffffffffffffffffffffffffccfffffffffffffffcbdddddddd11dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbbddddddbbbbbddddddddddddddddddddd
-        `, SpriteKind.Player)
+        `, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
     return sprite3
 }
 function cinematica () {
+    sprites.destroy(Play)
+    sprites.destroy(Help)
+    sprites.destroy(lore)
+    sprites.destroy(Cursor)
+    sprites.destroy(sprite33)
     game.showLongText("MAMÁ: Raimon... Raimon ! Despierta, llegas tarde al cole...RAIMOOOON !", DialogLayout.Bottom)
     game.showLongText("RAI: Mmmm...ya voy mamá. Eh? He dicho mamá? Vivo solo desde hace ya mucho, debe haber sido un sueño. Que hora será?", DialogLayout.Bottom)
     game.showLongText("LAS 12:15 !!!!", DialogLayout.Bottom)
@@ -323,12 +312,12 @@ function cinematica () {
         7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
         `)
     game.showLongText("Raimon salió corriendo dirección al ITB, el instituto dónde impartía clase y dónde todo los alumnos lo adoraban por ser el mejor profesor que jamás podrían tener. Raimon al ser runner corrió hacía el colegio y llegó a tiempo para impartir clase a los alumnos de DAM. Pero uno de sus alumnos, Raúl, tenía una queja por bajarle medio punto en un trabajo... el día no podía empezar peor para nuestro protagonista.", DialogLayout.Bottom)
-    scene.setBackgroundImage(assets.image`myImage0`)
+    scene.setBackgroundImage(assets.image`myImage1`)
     game.showLongText("RAÚL: Raimon tenemos que hablar, me has bajado medio punto y a la...", DialogLayout.Bottom)
     game.showLongText("Raimon no escuchó al alumno, era muy común que los alumnos se quejasen y había aprendido a no dejarse afectar. Mientras, Raúl seguía...", DialogLayout.Bottom)
     game.showLongText("RAÚL: Pues eso, que me tienes que subir medio punto. No me puedes hacer esto...", DialogLayout.Bottom)
     game.showLongText("RAIMON: mmm lo siento Raúl pero no puedo hacer nada. Además, es medio punto no te afectará...", DialogLayout.Bottom)
-    scene.setBackgroundImage(assets.image`myImage1`)
+    scene.setBackgroundImage(assets.image`myImage2`)
     game.showLongText("RAÚL: QUEEEEEE??? LO NECESITO PARA ACCEDER A LA UNIVERSIDAD !! YA NO ERES EL MEJOR PROFE QUE HE TENIDO...", DialogLayout.Bottom)
     sprite34 = create_sprite_raimon()
     sprite34.setPosition(81, 20)
@@ -347,10 +336,16 @@ function cinematica () {
     sprite34.setPosition(81, 20)
     game.showLongText("RAIMON: Tengo que salir de aquí, subir hasta lo más alto y rogar a DIOS por clemencia. Yo no soy así, que he hecho? Debo demostrar quien soy, lo que valgo y que soy el mejor profesor que pueden tener. LO HARÉ POR VOSOTROS ALUMNOS, VOY A DEMOSTRAROS QUE SOY EL MEJOR PROFE DEL MUNDOOO !!", DialogLayout.Bottom)
     scene.cameraShake(4, 500)
+    sprite34 = eliminar_sprite()
+    sprites.destroy(sprite32)
+    sprites.destroy(sprite33)
+    sprites.destroy(sprite34)
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
-    level_game = level_game + 1
-    level_game_cntrl()
+    if (level == 1) {
+        level_game = level_game + 1
+        level_game_cntrl()
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -375,11 +370,11 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         if (saltos == 2) {
-            mySprite.vy += -250
+            mySprite.vy += -1000
             mySprite.sayText(saltos)
             saltos = 1
         } else if (saltos == 1) {
-            mySprite.vy += -200
+            mySprite.vy += -1000
             mySprite.sayText(saltos)
             saltos = 0
         } else {
@@ -388,7 +383,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite22, location22) {
-    game.gameOver(false)
+    if (level == 1) {
+        game.gameOver(false)
+    }
 })
 function Level_Control () {
     let sprite35: Sprite;
@@ -396,21 +393,27 @@ if (level == 0) {
         sprites.destroy(sprite34)
         sprite35 = create_sprite_menu()
         sprite35.setPosition(81, 60)
-        Play = sprites.create(assets.image`play`, SpriteKind.Button)
-        Help = sprites.create(assets.image`help`, SpriteKind.Button)
+        Play = sprites.create(assets.image`play_button`, SpriteKind.Button)
+        Help = sprites.create(assets.image`help_button`, SpriteKind.Button)
+        lore = sprites.create(assets.image`myImage3`, SpriteKind.Button)
         Cursor = sprites.create(assets.image`user`, SpriteKind.Cursor)
         Play.setPosition(35, 91)
         Help.setPosition(120, 91)
+        lore.setPosition(76, 21)
         controller.moveSprite(Cursor)
     } else if (level == 1) {
-        level_game = 1
         sprites.destroy(Play)
         sprites.destroy(Help)
+        sprites.destroy(lore)
         sprites.destroy(Cursor)
+        sprites.destroy(sprite3)
+        sprites.destroy(sprite32)
+        sprites.destroy(sprite33)
+        sprites.destroy(sprite34)
+        sprites.destroy(sprite35)
         info.setLife(3)
+        level_game = 1
         level_game_cntrl()
-    } else {
-    	
     }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -578,9 +581,14 @@ function create_sprite_infierno () {
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-        `, SpriteKind.Player)
+        `, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
     return sprite32
+}
+function eliminar_sprite () {
+    sprite3 = sprites.create(assets.image`myImage0`, SpriteKind.Fondo)
+    // sprite2.set_position(76, 81)
+    return sprite3
 }
 sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, otherSprite) {
     if (otherSprite == Play && controller.A.isPressed()) {
@@ -589,6 +597,10 @@ sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, othe
     }
     if (otherSprite == Help && controller.A.isPressed()) {
         level = 2
+        Level_Control()
+    }
+    if (otherSprite == lore && controller.A.isPressed()) {
+        cinematica()
         Level_Control()
     }
 })
@@ -714,51 +726,56 @@ function create_sprite_menu () {
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-        `, SpriteKind.Player)
+        `, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
     return sprite33
 }
 function level_game_cntrl () {
     if (level_game == 1) {
         sprites.destroy(mySprite)
-        tiles.setCurrentTilemap(tilemap`level2`)
+        tiles.setCurrentTilemap(tilemap`level0`)
+        sprites.destroy(sprite34)
         mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
+        tiles.placeOnRandomTile(mySprite, assets.tile`trueinicio2`)
         controller.moveSprite(mySprite, 150, 0)
         mySprite.ay = 800
-        scene.cameraFollowSprite(mySprite)
         // tiles.place_on_random_tile(mySprite, img("""
         // trueinicio1
         // """))
         lava_level = 0
+        scene.cameraFollowSprite(mySprite)
     } else if (level_game == 2) {
         sprites.destroy(mySprite)
         tiles.setCurrentTilemap(tilemap`level2`)
+        sprites.destroy(sprite34)
         mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
+        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
         controller.moveSprite(mySprite, 150, 0)
         mySprite.ay = 800
         scene.cameraFollowSprite(mySprite)
-        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
         lava_level = 0
-    } else {
-    	
+        game.showLongText("RAIMON: ¡He conseguido escapar del infierno!", DialogLayout.Bottom)
+        game.showLongText("RAIMON: ...", DialogLayout.Bottom)
+        game.showLongText("RAIMON: ¡¡Joder que todavía esta subiendo la lava!!", DialogLayout.Bottom)
     }
 }
 let two = false
 let one = false
 let lava_level = 0
-let sprite33: Sprite = null
+let saltos = 0
 let sprite32: Sprite = null
+let sprite34: Sprite = null
+let sprite33: Sprite = null
 let Cursor: Sprite = null
+let lore: Sprite = null
 let Help: Sprite = null
 let Play: Sprite = null
-let saltos = 0
-let level_game = 0
-let sprite34: Sprite = null
 let sprite3: Sprite = null
 let mySprite: Sprite = null
+let level_game = 0
 let level = 0
-cinematica()
 level = 0
+level_game = 0
 Level_Control()
 game.onUpdateInterval(2000, function () {
     if (level == 1) {

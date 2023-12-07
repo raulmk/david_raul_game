@@ -2,31 +2,17 @@
 class SpriteKind:
     Button = SpriteKind.create()
     Cursor = SpriteKind.create()
+    Fondo = SpriteKind.create()
 
 def on_overlap_tile(sprite2, location2):
     if level == 1 and controller.up.is_pressed():
         animation.run_image_animation(mySprite,
-            [img("""
-                . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . . 
-                            . . . . . . . . . . . . . . . .
-            """)],
+            assets.animation("""
+                subiranimacion
+            """),
             200,
             False)
-        mySprite.x += -30
+        mySprite.vy += -30
 scene.on_overlap_tile(SpriteKind.player,
     sprites.dungeon.stair_north,
     on_overlap_tile)
@@ -195,11 +181,16 @@ def create_sprite_raimon():
                     fffffffffffffffffffffffffffccfffffffffffffffcbdddddddd11dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbbddddddbbbbbddddddddddddddddddddd
                     fffffffffffffffffffffffffffccfffffffffffffffcbdddddddd11dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbbddddddbbbbbddddddddddddddddddddd
         """),
-        SpriteKind.player)
+        SpriteKind.Fondo)
     # sprite2.set_position(76, 81)
     return sprite3
 def cinematica():
     global sprite34
+    sprites.destroy(Play)
+    sprites.destroy(Help)
+    sprites.destroy(lore)
+    sprites.destroy(Cursor2)
+    sprites.destroy(sprite33)
     game.show_long_text("MAMÁ: Raimon... Raimon ! Despierta, llegas tarde al cole...RAIMOOOON !",
         DialogLayout.BOTTOM)
     game.show_long_text("RAI: Mmmm...ya voy mamá. Eh? He dicho mamá? Vivo solo desde hace ya mucho, debe haber sido un sueño. Que hora será?",
@@ -330,7 +321,7 @@ def cinematica():
     game.show_long_text("Raimon salió corriendo dirección al ITB, el instituto dónde impartía clase y dónde todo los alumnos lo adoraban por ser el mejor profesor que jamás podrían tener. Raimon al ser runner corrió hacía el colegio y llegó a tiempo para impartir clase a los alumnos de DAM. Pero uno de sus alumnos, Raúl, tenía una queja por bajarle medio punto en un trabajo... el día no podía empezar peor para nuestro protagonista.",
         DialogLayout.BOTTOM)
     scene.set_background_image(assets.image("""
-        myImage0
+        myImage1
     """))
     game.show_long_text("RAÚL: Raimon tenemos que hablar, me has bajado medio punto y a la...",
         DialogLayout.BOTTOM)
@@ -341,7 +332,7 @@ def cinematica():
     game.show_long_text("RAIMON: mmm lo siento Raúl pero no puedo hacer nada. Además, es medio punto no te afectará...",
         DialogLayout.BOTTOM)
     scene.set_background_image(assets.image("""
-        myImage1
+        myImage2
     """))
     game.show_long_text("RAÚL: QUEEEEEE??? LO NECESITO PARA ACCEDER A LA UNIVERSIDAD !! YA NO ERES EL MEJOR PROFE QUE HE TENIDO...",
         DialogLayout.BOTTOM)
@@ -371,11 +362,16 @@ def cinematica():
     game.show_long_text("RAIMON: Tengo que salir de aquí, subir hasta lo más alto y rogar a DIOS por clemencia. Yo no soy así, que he hecho? Debo demostrar quien soy, lo que valgo y que soy el mejor profesor que pueden tener. LO HARÉ POR VOSOTROS ALUMNOS, VOY A DEMOSTRAROS QUE SOY EL MEJOR PROFE DEL MUNDOOO !!",
         DialogLayout.BOTTOM)
     scene.camera_shake(4, 500)
+    sprite34 = eliminar_sprite()
+    sprites.destroy(sprite322)
+    sprites.destroy(sprite33)
+    sprites.destroy(sprite34)
 
 def on_overlap_tile2(sprite, location):
     global level_game
-    level_game = level_game + 1
-    level_game_cntrl()
+    if level == 1:
+        level_game = level_game + 1
+        level_game_cntrl()
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         meta
@@ -406,11 +402,11 @@ def on_a_pressed():
     global saltos
     if level == 1:
         if saltos == 2:
-            mySprite.vy += -250
+            mySprite.vy += -1000
             mySprite.say_text(saltos)
             saltos = 1
         elif saltos == 1:
-            mySprite.vy += -200
+            mySprite.vy += -1000
             mySprite.say_text(saltos)
             saltos = 0
         else:
@@ -418,7 +414,8 @@ def on_a_pressed():
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_overlap_tile3(sprite22, location22):
-    game.game_over(False)
+    if level == 1:
+        game.game_over(False)
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         lava
@@ -426,32 +423,40 @@ scene.on_overlap_tile(SpriteKind.player,
     on_overlap_tile3)
 
 def Level_Control():
-    global Play, Help, Cursor2, level_game
+    global Play, Help, lore, Cursor2, level_game
     if level == 0:
         sprites.destroy(sprite34)
         sprite35 = create_sprite_menu()
         sprite35.set_position(81, 60)
         Play = sprites.create(assets.image("""
-            play
+            play_button
         """), SpriteKind.Button)
         Help = sprites.create(assets.image("""
-            help
+            help_button
+        """), SpriteKind.Button)
+        lore = sprites.create(assets.image("""
+            myImage3
         """), SpriteKind.Button)
         Cursor2 = sprites.create(assets.image("""
             user
         """), SpriteKind.Cursor)
         Play.set_position(35, 91)
         Help.set_position(120, 91)
+        lore.set_position(76, 21)
         controller.move_sprite(Cursor2)
     elif level == 1:
-        level_game = 1
         sprites.destroy(Play)
         sprites.destroy(Help)
+        sprites.destroy(lore)
         sprites.destroy(Cursor2)
+        sprites.destroy(sprite3)
+        sprites.destroy(sprite322)
+        sprites.destroy(sprite33)
+        sprites.destroy(sprite34)
+        sprites.destroy(sprite35)
         info.set_life(3)
+        level_game = 1
         level_game_cntrl()
-    else:
-        pass
 
 def on_up_pressed():
     pass
@@ -621,9 +626,16 @@ def create_sprite_infierno():
                     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
                     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         """),
-        SpriteKind.player)
+        SpriteKind.Fondo)
     # sprite2.set_position(76, 81)
     return sprite322
+def eliminar_sprite():
+    global sprite3
+    sprite3 = sprites.create(assets.image("""
+        myImage0
+    """), SpriteKind.Fondo)
+    # sprite2.set_position(76, 81)
+    return sprite3
 
 def on_on_overlap(sprite32, otherSprite):
     global level
@@ -632,6 +644,9 @@ def on_on_overlap(sprite32, otherSprite):
         Level_Control()
     if otherSprite == Help and controller.A.is_pressed():
         level = 2
+        Level_Control()
+    if otherSprite == lore and controller.A.is_pressed():
+        cinematica()
         Level_Control()
 sprites.on_overlap(SpriteKind.Cursor, SpriteKind.Button, on_on_overlap)
 
@@ -759,7 +774,7 @@ def create_sprite_menu():
                     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
                     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         """),
-        SpriteKind.player)
+        SpriteKind.Fondo)
     # sprite2.set_position(76, 81)
     return sprite33
 def level_game_cntrl():
@@ -767,51 +782,60 @@ def level_game_cntrl():
     if level_game == 1:
         sprites.destroy(mySprite)
         tiles.set_current_tilemap(tilemap("""
-            level2
+            level0
         """))
+        sprites.destroy(sprite34)
         mySprite = sprites.create(assets.image("""
             user
         """), SpriteKind.player)
+        tiles.place_on_random_tile(mySprite, assets.tile("""
+            trueinicio2
+        """))
         controller.move_sprite(mySprite, 150, 0)
         mySprite.ay = 800
-        scene.camera_follow_sprite(mySprite)
         # tiles.place_on_random_tile(mySprite, img("""
         # trueinicio1
         # """))
         lava_level = 0
+        scene.camera_follow_sprite(mySprite)
     elif level_game == 2:
         sprites.destroy(mySprite)
         tiles.set_current_tilemap(tilemap("""
             level2
         """))
+        sprites.destroy(sprite34)
         mySprite = sprites.create(assets.image("""
             user
         """), SpriteKind.player)
-        controller.move_sprite(mySprite, 150, 0)
-        mySprite.ay = 800
-        scene.camera_follow_sprite(mySprite)
         tiles.place_on_random_tile(mySprite, assets.tile("""
             myTile
         """))
+        controller.move_sprite(mySprite, 150, 0)
+        mySprite.ay = 800
+        scene.camera_follow_sprite(mySprite)
         lava_level = 0
-    else:
-        pass
+        game.show_long_text("RAIMON: ¡He conseguido escapar del infierno!",
+            DialogLayout.BOTTOM)
+        game.show_long_text("RAIMON: ...", DialogLayout.BOTTOM)
+        game.show_long_text("RAIMON: ¡¡Joder que todavía esta subiendo la lava!!",
+            DialogLayout.BOTTOM)
 two = False
 one = False
 lava_level = 0
-sprite33: Sprite = None
+saltos = 0
 sprite322: Sprite = None
+sprite34: Sprite = None
+sprite33: Sprite = None
 Cursor2: Sprite = None
+lore: Sprite = None
 Help: Sprite = None
 Play: Sprite = None
-saltos = 0
-level_game = 0
-sprite34: Sprite = None
 sprite3: Sprite = None
 mySprite: Sprite = None
+level_game = 0
 level = 0
-cinematica()
 level = 0
+level_game = 0
 Level_Control()
 
 def on_update_interval():
