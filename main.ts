@@ -323,6 +323,7 @@ function cinematica () {
     sprite34.setPosition(81, 20)
     game.showLongText("Lo que más quería Raimon en la vida era al FCBarcelona y a sus alumnos. Esta frase le afectó y recapacitó sobre si mismo, si estaba haciendo lo correcto, si era el mejor profesor que podían tener... Esa misma noche, después de pensar horas y horas, exclamó al cielo...", DialogLayout.Bottom)
     game.showLongText("RAIMON: PORQUE DIOS?? QUE HE HECHO YO PARA MERECER ESTO?? DESEO VENDER MI ALMA A CAMBIO DE CONVERTIRME EN EL MEJOR PROFESOR QUE PUEDAN TENER !!", DialogLayout.Bottom)
+    sprite34 = eliminar_sprite()
     sprite34 = create_sprite_infierno()
     sprite34.setPosition(81, 60)
     game.showLongText("RAIMON: Eh? Qué hago aquí? Es esto un sueño?", DialogLayout.Bottom)
@@ -335,11 +336,8 @@ function cinematica () {
     sprite34 = create_sprite_raimon()
     sprite34.setPosition(81, 20)
     game.showLongText("RAIMON: Tengo que salir de aquí, subir hasta lo más alto y rogar a DIOS por clemencia. Yo no soy así, que he hecho? Debo demostrar quien soy, lo que valgo y que soy el mejor profesor que pueden tener. LO HARÉ POR VOSOTROS ALUMNOS, VOY A DEMOSTRAROS QUE SOY EL MEJOR PROFE DEL MUNDOOO !!", DialogLayout.Bottom)
-    scene.cameraShake(4, 500)
     sprite34 = eliminar_sprite()
-    sprites.destroy(sprite32)
-    sprites.destroy(sprite33)
-    sprites.destroy(sprite34)
+    scene.cameraShake(4, 500)
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
     if (level == 1) {
@@ -402,6 +400,7 @@ if (level == 0) {
         lore.setPosition(76, 21)
         controller.moveSprite(Cursor)
     } else if (level == 1) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Fondo)
         sprites.destroy(Play)
         sprites.destroy(Help)
         sprites.destroy(lore)
@@ -586,9 +585,9 @@ function create_sprite_infierno () {
     return sprite32
 }
 function eliminar_sprite () {
-    sprite3 = sprites.create(assets.image`myImage0`, SpriteKind.Fondo)
+    borrar_sprite = sprites.create(assets.image`myImage0`, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
-    return sprite3
+    return borrar_sprite
 }
 sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, otherSprite) {
     if (otherSprite == Play && controller.A.isPressed()) {
@@ -757,13 +756,26 @@ function level_game_cntrl () {
         game.showLongText("RAIMON: ¡He conseguido escapar del infierno!", DialogLayout.Bottom)
         game.showLongText("RAIMON: ...", DialogLayout.Bottom)
         game.showLongText("RAIMON: ¡¡Joder que todavía esta subiendo la lava!!", DialogLayout.Bottom)
+    } else if (level_game == 3) {
+        sprites.destroy(mySprite)
+        tiles.setCurrentTilemap(tilemap`level6`)
+        sprites.destroy(sprite34)
+        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
+        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
+        controller.moveSprite(mySprite, 150, 0)
+        mySprite.ay = 800
+        scene.cameraFollowSprite(mySprite)
+        lava_level = 0
+        game.showLongText("RAIMON: ¡Ahí está Dios!", DialogLayout.Bottom)
+        game.showLongText("RAIMON: Espero no quemarme con la lava...", DialogLayout.Bottom)
     }
 }
 let two = false
 let one = false
 let lava_level = 0
-let saltos = 0
+let borrar_sprite: Sprite = null
 let sprite32: Sprite = null
+let saltos = 0
 let sprite34: Sprite = null
 let sprite33: Sprite = null
 let Cursor: Sprite = null

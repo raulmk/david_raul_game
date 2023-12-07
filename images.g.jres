@@ -49,6 +49,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "myImage3"
     },
+    "image10": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAARFQEAAAAAEBVRQUAAABARCVUBAAAAERVRCIEAABAVURVRQQAAEREVSVUBABAUlQlVEUEAERVRFRVQgUARSJSRVVCBQBFVVVFUkUFACAkUkJURQUAUEJVVVVFBAAAUkRERFIEAABQVVVEVAQAAAAAAABABA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "fuego"
+    },
     "anim2": {
         "namespace": "myAnimations",
         "id": "anim2",

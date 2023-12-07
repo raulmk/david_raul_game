@@ -342,6 +342,7 @@ def cinematica():
         DialogLayout.BOTTOM)
     game.show_long_text("RAIMON: PORQUE DIOS?? QUE HE HECHO YO PARA MERECER ESTO?? DESEO VENDER MI ALMA A CAMBIO DE CONVERTIRME EN EL MEJOR PROFESOR QUE PUEDAN TENER !!",
         DialogLayout.BOTTOM)
+    sprite34 = eliminar_sprite()
     sprite34 = create_sprite_infierno()
     sprite34.set_position(81, 60)
     game.show_long_text("RAIMON: Eh? Qué hago aquí? Es esto un sueño?",
@@ -361,11 +362,8 @@ def cinematica():
     sprite34.set_position(81, 20)
     game.show_long_text("RAIMON: Tengo que salir de aquí, subir hasta lo más alto y rogar a DIOS por clemencia. Yo no soy así, que he hecho? Debo demostrar quien soy, lo que valgo y que soy el mejor profesor que pueden tener. LO HARÉ POR VOSOTROS ALUMNOS, VOY A DEMOSTRAROS QUE SOY EL MEJOR PROFE DEL MUNDOOO !!",
         DialogLayout.BOTTOM)
-    scene.camera_shake(4, 500)
     sprite34 = eliminar_sprite()
-    sprites.destroy(sprite322)
-    sprites.destroy(sprite33)
-    sprites.destroy(sprite34)
+    scene.camera_shake(4, 500)
 
 def on_overlap_tile2(sprite, location):
     global level_game
@@ -445,6 +443,7 @@ def Level_Control():
         lore.set_position(76, 21)
         controller.move_sprite(Cursor2)
     elif level == 1:
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Fondo)
         sprites.destroy(Play)
         sprites.destroy(Help)
         sprites.destroy(lore)
@@ -630,12 +629,12 @@ def create_sprite_infierno():
     # sprite2.set_position(76, 81)
     return sprite322
 def eliminar_sprite():
-    global sprite3
-    sprite3 = sprites.create(assets.image("""
+    global borrar_sprite
+    borrar_sprite = sprites.create(assets.image("""
         myImage0
     """), SpriteKind.Fondo)
     # sprite2.set_position(76, 81)
-    return sprite3
+    return borrar_sprite
 
 def on_on_overlap(sprite32, otherSprite):
     global level
@@ -819,11 +818,33 @@ def level_game_cntrl():
         game.show_long_text("RAIMON: ...", DialogLayout.BOTTOM)
         game.show_long_text("RAIMON: ¡¡Joder que todavía esta subiendo la lava!!",
             DialogLayout.BOTTOM)
+    elif level_game == 3:
+        sprites.destroy(mySprite)
+        tiles.set_current_tilemap(tilemap("""
+            level6
+        """))
+        sprites.destroy(sprite34)
+        mySprite = sprites.create(assets.image("""
+            user
+        """), SpriteKind.player)
+        tiles.place_on_random_tile(mySprite, assets.tile("""
+            myTile
+        """))
+        controller.move_sprite(mySprite, 150, 0)
+        mySprite.ay = 800
+        scene.camera_follow_sprite(mySprite)
+        lava_level = 0
+        game.show_long_text("RAIMON: ¡Ahí está Dios!", DialogLayout.BOTTOM)
+        game.show_long_text("RAIMON: Espero no quemarme con la lava...",
+            DialogLayout.BOTTOM)
+    else:
+        pass
 two = False
 one = False
 lava_level = 0
-saltos = 0
+borrar_sprite: Sprite = None
 sprite322: Sprite = None
+saltos = 0
 sprite34: Sprite = None
 sprite33: Sprite = None
 Cursor2: Sprite = None
