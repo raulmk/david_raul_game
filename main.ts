@@ -10,6 +10,27 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Rayo, function (sprite, otherSpr
     sprites.destroy(otherSprite, effects.starField, 500)
     info.changeLifeBy(-1)
 })
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+	
+})
+sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, otherSprite3) {
+    if (otherSprite3 == Play && controller.A.isPressed()) {
+        level = 1
+        Level_Control()
+    }
+    if (otherSprite3 == Help && controller.A.isPressed()) {
+        level = 2
+        Level_Control()
+    }
+    if (otherSprite3 == lore && controller.A.isPressed()) {
+        cinematica()
+        sprites.destroyAllSpritesOfKind(SpriteKind.Fondo)
+        Level_Control()
+    }
+})
+scene.onHitWall(SpriteKind.Paloma, function (sprite8, location5) {
+    sprites.destroy(sprite8, effects.fountain, 500)
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (sprite2, location2) {
     if (level == 1 && controller.up.isPressed()) {
         animation.runImageAnimation(
@@ -22,7 +43,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (spr
     }
 })
 function create_sprite_raimon () {
-    sprite3 = sprites.create(img`
+    sprite36 = sprites.create(img`
         ddddddbbbbbbbbcccccccbbbbbbbbbcffccbddbccfffffffcbbccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccccccccccccccccccccccccccc
         ddddddddbbbbbbbbcccccbbbbbbbbbcffccbddbccffffffffcccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccccccccccccccccccccccccccccccccc
         dddddddddddbbbbbbcccccbbbbbbbccffcbdddbcfffffffffcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccccccccccccccccccccccccccccc
@@ -185,13 +206,23 @@ function create_sprite_raimon () {
         fffffffffffffffffffffffffffccfffffffffffffffcbdddddddd11dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbbddddddbbbbbddddddddddddddddddddd
         `, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
-    return sprite3
+    return sprite36
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Bola, function (sprite4, otherSprite2) {
+    sprites.destroy(otherSprite2, effects.fire, 500)
+    info.changeLifeBy(-1)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite222, location222) {
+    if (level == 1) {
+        game.gameOver(false)
+    }
+})
 function cinematica () {
+    scene.setBackgroundImage(assets.image`fondomyImage`)
     sprites.destroy(Play)
     sprites.destroy(Help)
     sprites.destroy(lore)
-    sprites.destroy(Cursor)
+    sprites.destroy(Cursor2)
     sprites.destroy(sprite33)
     game.showLongText("MAMÁ: Raimon... Raimon ! Despierta, llegas tarde al cole...RAIMOOOON !", DialogLayout.Bottom)
     game.showLongText("RAI: Mmmm...ya voy mamá. Eh? He dicho mamá? Vivo solo desde hace ya mucho, debe haber sido un sueño. Que hora será?", DialogLayout.Bottom)
@@ -346,25 +377,20 @@ function cinematica () {
     sprite34 = eliminar_sprite()
     scene.cameraShake(4, 500)
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite, location) {
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
-        level_game = level_game + 1
-        level_game_cntrl()
+        if (saltos == 2) {
+            mySprite.vy += -1000
+            saltos = 1
+        } else if (saltos == 1) {
+            mySprite.vy += -1000
+            saltos = 0
+        }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite22, location22) {
     tiles.setTileAt(location22, assets.tile`cielo0`)
     info.changeLifeBy(1)
-})
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (level == 1) {
-        animation.runImageAnimation(
-        mySprite,
-        assets.animation`camina_derecha`,
-        200,
-        false
-        )
-    }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -376,36 +402,22 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         )
     }
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+scene.onHitWall(SpriteKind.Bola, function (sprite5, location3) {
+    sprites.destroy(sprite5, effects.fire, 500)
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
-        if (saltos == 2) {
-            mySprite.vy += -1000
-            mySprite.sayText(saltos)
-            saltos = 1
-        } else if (saltos == 1) {
-            mySprite.vy += -1000
-            mySprite.sayText(saltos)
-            saltos = 0
-        } else {
-            mySprite.sayText(saltos)
-        }
+        animation.runImageAnimation(
+        mySprite,
+        assets.animation`camina_derecha`,
+        200,
+        false
+        )
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite22, location22) {
-    if (level == 1) {
-        game.gameOver(false)
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite22, location22) {
-    tiles.setTileAt(location22, assets.tile`myTile6`)
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite223, location223) {
+    tiles.setTileAt(location223, assets.tile`myTile6`)
     info.changeLifeBy(1)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Bola, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite, effects.fire, 500)
-    info.changeLifeBy(-1)
-})
-scene.onHitWall(SpriteKind.Bola, function (sprite, location) {
-    sprites.destroy(sprite, effects.fire, 500)
 })
 function Level_Control () {
     let sprite35: Sprite;
@@ -416,19 +428,19 @@ if (level == 0) {
         Play = sprites.create(assets.image`play_button`, SpriteKind.Button)
         Help = sprites.create(assets.image`help_button`, SpriteKind.Button)
         lore = sprites.create(assets.image`myImage3`, SpriteKind.Button)
-        Cursor = sprites.create(assets.image`user`, SpriteKind.Cursor)
+        Cursor2 = sprites.create(assets.image`user`, SpriteKind.Cursor)
         Play.setPosition(35, 91)
         Help.setPosition(120, 91)
         lore.setPosition(76, 21)
-        controller.moveSprite(Cursor)
+        controller.moveSprite(Cursor2)
     } else if (level == 1) {
         sprites.destroyAllSpritesOfKind(SpriteKind.Fondo)
         sprites.destroy(Play)
         sprites.destroy(Help)
         sprites.destroy(lore)
-        sprites.destroy(Cursor)
-        sprites.destroy(sprite3)
-        sprites.destroy(sprite32)
+        sprites.destroy(Cursor2)
+        sprites.destroy(sprite36)
+        sprites.destroy(sprite322)
         sprites.destroy(sprite33)
         sprites.destroy(sprite34)
         sprites.destroy(sprite35)
@@ -437,14 +449,8 @@ if (level == 0) {
         level_game_cntrl()
     }
 }
-scene.onHitWall(SpriteKind.Rayo, function (sprite, location) {
-    sprites.destroy(sprite, effects.starField, 500)
-})
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-	
-})
 function create_sprite_infierno () {
-    sprite32 = sprites.create(img`
+    sprite322 = sprites.create(img`
         fffffffcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffeecfffffcfffffffffffffffffffffffffffff222effffffffffffffcffffffffffffffffff
         ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffffffffffeefffeffffffffffffffffffffffffff2fffffffffffffffff22fffffffffffffffffffffffffffffffffff
         fffcfffffffffffffffffffffffffffffffffffffffffffffffefffffcffffffffffffffeffffffffffeefffffffffffffffffffefffffffffffffffffeffffffffffffffffffffffffcffffffcffff
@@ -607,30 +613,16 @@ function create_sprite_infierno () {
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         `, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
-    return sprite32
+    return sprite322
 }
 function eliminar_sprite () {
     borrar_sprite = sprites.create(assets.image`myImage0`, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
     return borrar_sprite
 }
-sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, otherSprite) {
-    if (otherSprite == Play && controller.A.isPressed()) {
-        level = 1
-        Level_Control()
-    }
-    if (otherSprite == Help && controller.A.isPressed()) {
-        level = 2
-        Level_Control()
-    }
-    if (otherSprite == lore && controller.A.isPressed()) {
-        cinematica()
-        Level_Control()
-    }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Paloma, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Paloma, function (sprite7, otherSprite4) {
     info.changeLifeBy(-1)
-    sprites.destroy(otherSprite, effects.fountain, 500)
+    sprites.destroy(otherSprite4, effects.fountain, 500)
 })
 function create_sprite_menu () {
     sprite33 = sprites.create(img`
@@ -778,7 +770,7 @@ function level_game_cntrl () {
         tiles.setCurrentTilemap(tilemap`level2`)
         sprites.destroy(sprite34)
         mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
-        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
+        tiles.placeOnRandomTile(mySprite, assets.tile`myTile13`)
         controller.moveSprite(mySprite, 150, 0)
         mySprite.ay = 800
         scene.cameraFollowSprite(mySprite)
@@ -802,8 +794,15 @@ function level_game_cntrl () {
         game.showLongText("RAIMON: Espero no quemarme con la lava...", DialogLayout.Bottom)
     }
 }
-scene.onHitWall(SpriteKind.Paloma, function (sprite, location) {
-    sprites.destroy(sprite, effects.fountain, 500)
+scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite3, location) {
+    if (level == 1) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+        level_game = level_game + 1
+        level_game_cntrl()
+    }
+})
+scene.onHitWall(SpriteKind.Rayo, function (sprite6, location4) {
+    sprites.destroy(sprite6, effects.starField, 500)
 })
 let two = false
 let one = false
@@ -812,21 +811,38 @@ let paloma: Sprite = null
 let bola_fuego: Sprite = null
 let lava_level = 0
 let borrar_sprite: Sprite = null
-let sprite32: Sprite = null
+let sprite322: Sprite = null
 let saltos = 0
 let sprite34: Sprite = null
 let sprite33: Sprite = null
-let Cursor: Sprite = null
+let Cursor2: Sprite = null
+let sprite36: Sprite = null
+let mySprite: Sprite = null
 let lore: Sprite = null
 let Help: Sprite = null
 let Play: Sprite = null
-let sprite3: Sprite = null
-let mySprite: Sprite = null
 let level_game = 0
 let level = 0
 level = 0
 level_game = 0
 Level_Control()
+game.onUpdateInterval(2000, function () {
+    if (level_game == 1) {
+        bola_fuego = sprites.create(assets.image`myImage4`, SpriteKind.Bola)
+        tiles.placeOnRandomTile(bola_fuego, assets.tile`meta`)
+        bola_fuego.vy = 200
+    } else if (level_game == 2) {
+        paloma = sprites.create(assets.image`myImage6`, SpriteKind.Paloma)
+        tiles.placeOnRandomTile(paloma, assets.tile`meta`)
+        paloma.vy = 200
+    } else if (level_game == 3) {
+        rayo = sprites.create(assets.image`myImage7`, SpriteKind.Rayo)
+        tiles.placeOnRandomTile(rayo, assets.tile`meta`)
+        rayo.vy = 200
+    } else {
+    	
+    }
+})
 game.onUpdateInterval(2000, function () {
     if (level == 1) {
         lava_level += 1
@@ -834,23 +850,6 @@ game.onUpdateInterval(2000, function () {
             tiles.setTileAt(tiles.getTileLocation(index, lava_level * -1 + 102), assets.tile`lava`)
             tiles.setWallAt(tiles.getTileLocation(index, lava_level * -1 + 102), false)
         }
-    }
-})
-game.onUpdateInterval(2000, function () {
-    if (level_game == 1) {
-        bola_fuego = sprites.create(assets.image`myImage4`, SpriteKind.Bola)
-        tiles.placeOnRandomTile(bola_fuego, assets.tile`meta`)
-        bola_fuego.ay = 500
-    } else if (level_game == 2) {
-        paloma = sprites.create(assets.image`myImage6`, SpriteKind.Paloma)
-        tiles.placeOnRandomTile(paloma, assets.tile`meta`)
-        paloma.ay = 500
-    } else if (level_game == 3) {
-        rayo = sprites.create(assets.image`myImage7`, SpriteKind.Rayo)
-        tiles.placeOnRandomTile(rayo, assets.tile`meta`)
-        rayo.ay = 500
-    } else {
-    	
     }
 })
 forever(function () {

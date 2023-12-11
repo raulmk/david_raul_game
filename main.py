@@ -12,6 +12,28 @@ def on_on_overlap(sprite, otherSprite):
     info.change_life_by(-1)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Rayo, on_on_overlap)
 
+def on_up_pressed():
+    pass
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
+def on_on_overlap2(sprite32, otherSprite3):
+    global level
+    if otherSprite3 == Play and controller.A.is_pressed():
+        level = 1
+        Level_Control()
+    if otherSprite3 == Help and controller.A.is_pressed():
+        level = 2
+        Level_Control()
+    if otherSprite3 == lore and controller.A.is_pressed():
+        cinematica()
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Fondo)
+        Level_Control()
+sprites.on_overlap(SpriteKind.Cursor, SpriteKind.Button, on_on_overlap2)
+
+def on_hit_wall(sprite8, location5):
+    sprites.destroy(sprite8, effects.fountain, 500)
+scene.on_hit_wall(SpriteKind.Paloma, on_hit_wall)
+
 def on_overlap_tile(sprite2, location2):
     if level == 1 and controller.up.is_pressed():
         animation.run_image_animation(mySprite,
@@ -192,8 +214,26 @@ def create_sprite_raimon():
         SpriteKind.Fondo)
     # sprite2.set_position(76, 81)
     return sprite36
+
+def on_on_overlap3(sprite4, otherSprite2):
+    sprites.destroy(otherSprite2, effects.fire, 500)
+    info.change_life_by(-1)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Bola, on_on_overlap3)
+
+def on_overlap_tile2(sprite222, location222):
+    if level == 1:
+        game.game_over(False)
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        lava
+    """),
+    on_overlap_tile2)
+
 def cinematica():
     global sprite34
+    scene.set_background_image(assets.image("""
+        fondomyImage
+    """))
     sprites.destroy(Play)
     sprites.destroy(Help)
     sprites.destroy(lore)
@@ -373,16 +413,16 @@ def cinematica():
     sprite34 = eliminar_sprite()
     scene.camera_shake(4, 500)
 
-def on_overlap_tile2(sprite3, location):
-    global level_game
+def on_a_pressed():
+    global saltos
     if level == 1:
-        level_game = level_game + 1
-        level_game_cntrl()
-scene.on_overlap_tile(SpriteKind.player,
-    assets.tile("""
-        meta
-    """),
-    on_overlap_tile2)
+        if saltos == 2:
+            mySprite.vy += -1000
+            saltos = 1
+        elif saltos == 1:
+            mySprite.vy += -1000
+            saltos = 0
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_overlap_tile3(sprite22, location22):
     tiles.set_tile_at(location22, assets.tile("""
@@ -395,16 +435,6 @@ scene.on_overlap_tile(SpriteKind.player,
     """),
     on_overlap_tile3)
 
-def on_right_pressed():
-    if level == 1:
-        animation.run_image_animation(mySprite,
-            assets.animation("""
-                camina_derecha
-            """),
-            200,
-            False)
-controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
-
 def on_left_pressed():
     if level == 1:
         animation.run_image_animation(mySprite,
@@ -415,31 +445,21 @@ def on_left_pressed():
             False)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
-def on_a_pressed():
-    global saltos
-    if level == 1:
-        if saltos == 2:
-            mySprite.vy += -1000
-            mySprite.say_text(saltos)
-            saltos = 1
-        elif saltos == 1:
-            mySprite.vy += -1000
-            mySprite.say_text(saltos)
-            saltos = 0
-        else:
-            mySprite.say_text(saltos)
-controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+def on_hit_wall2(sprite5, location3):
+    sprites.destroy(sprite5, effects.fire, 500)
+scene.on_hit_wall(SpriteKind.Bola, on_hit_wall2)
 
-def on_overlap_tile4(sprite222, location222):
+def on_right_pressed():
     if level == 1:
-        game.game_over(False)
-scene.on_overlap_tile(SpriteKind.player,
-    assets.tile("""
-        lava
-    """),
-    on_overlap_tile4)
+        animation.run_image_animation(mySprite,
+            assets.animation("""
+                camina_derecha
+            """),
+            200,
+            False)
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
-def on_overlap_tile5(sprite223, location223):
+def on_overlap_tile4(sprite223, location223):
     tiles.set_tile_at(location223, assets.tile("""
         myTile6
     """))
@@ -448,16 +468,7 @@ scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         myTile10
     """),
-    on_overlap_tile5)
-
-def on_on_overlap2(sprite4, otherSprite2):
-    sprites.destroy(otherSprite2, effects.fire, 500)
-    info.change_life_by(-1)
-sprites.on_overlap(SpriteKind.player, SpriteKind.Bola, on_on_overlap2)
-
-def on_hit_wall(sprite5, location3):
-    sprites.destroy(sprite5, effects.fire, 500)
-scene.on_hit_wall(SpriteKind.Bola, on_hit_wall)
+    on_overlap_tile4)
 
 def Level_Control():
     global Play, Help, lore, Cursor2, level_game
@@ -495,15 +506,6 @@ def Level_Control():
         info.set_life(3)
         level_game = 1
         level_game_cntrl()
-
-def on_hit_wall2(sprite6, location4):
-    sprites.destroy(sprite6, effects.star_field, 500)
-scene.on_hit_wall(SpriteKind.Rayo, on_hit_wall2)
-
-def on_up_pressed():
-    pass
-controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
-
 def create_sprite_infierno():
     global sprite322
     sprite322 = sprites.create(img("""
@@ -679,19 +681,6 @@ def eliminar_sprite():
     # sprite2.set_position(76, 81)
     return borrar_sprite
 
-def on_on_overlap3(sprite32, otherSprite3):
-    global level
-    if otherSprite3 == Play and controller.A.is_pressed():
-        level = 1
-        Level_Control()
-    if otherSprite3 == Help and controller.A.is_pressed():
-        level = 2
-        Level_Control()
-    if otherSprite3 == lore and controller.A.is_pressed():
-        cinematica()
-        Level_Control()
-sprites.on_overlap(SpriteKind.Cursor, SpriteKind.Button, on_on_overlap3)
-
 def on_on_overlap4(sprite7, otherSprite4):
     info.change_life_by(-1)
     sprites.destroy(otherSprite4, effects.fountain, 500)
@@ -856,7 +845,7 @@ def level_game_cntrl():
             user
         """), SpriteKind.player)
         tiles.place_on_random_tile(mySprite, assets.tile("""
-            myTile
+            myTile13
         """))
         controller.move_sprite(mySprite, 150, 0)
         mySprite.ay = 800
@@ -889,9 +878,21 @@ def level_game_cntrl():
         game.show_long_text("RAIMON: Espero no quemarme con la lava...",
             DialogLayout.BOTTOM)
 
-def on_hit_wall3(sprite8, location5):
-    sprites.destroy(sprite8, effects.fountain, 500)
-scene.on_hit_wall(SpriteKind.Paloma, on_hit_wall3)
+def on_overlap_tile5(sprite3, location):
+    global level_game
+    if level == 1:
+        sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+        level_game = level_game + 1
+        level_game_cntrl()
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        meta
+    """),
+    on_overlap_tile5)
+
+def on_hit_wall3(sprite6, location4):
+    sprites.destroy(sprite6, effects.star_field, 500)
+scene.on_hit_wall(SpriteKind.Rayo, on_hit_wall3)
 
 two = False
 one = False
@@ -905,11 +906,11 @@ saltos = 0
 sprite34: Sprite = None
 sprite33: Sprite = None
 Cursor2: Sprite = None
+sprite36: Sprite = None
+mySprite: Sprite = None
 lore: Sprite = None
 Help: Sprite = None
 Play: Sprite = None
-sprite36: Sprite = None
-mySprite: Sprite = None
 level_game = 0
 level = 0
 level = 0
@@ -917,6 +918,36 @@ level_game = 0
 Level_Control()
 
 def on_update_interval():
+    global bola_fuego, paloma, rayo
+    if level_game == 1:
+        bola_fuego = sprites.create(assets.image("""
+            myImage4
+        """), SpriteKind.Bola)
+        tiles.place_on_random_tile(bola_fuego, assets.tile("""
+            meta
+        """))
+        bola_fuego.vy = 200
+    elif level_game == 2:
+        paloma = sprites.create(assets.image("""
+            myImage6
+        """), SpriteKind.Paloma)
+        tiles.place_on_random_tile(paloma, assets.tile("""
+            meta
+        """))
+        paloma.vy = 200
+    elif level_game == 3:
+        rayo = sprites.create(assets.image("""
+            myImage7
+        """), SpriteKind.Rayo)
+        tiles.place_on_random_tile(rayo, assets.tile("""
+            meta
+        """))
+        rayo.vy = 200
+    else:
+        pass
+game.on_update_interval(2000, on_update_interval)
+
+def on_update_interval2():
     global lava_level
     if level == 1:
         lava_level += 1
@@ -926,36 +957,6 @@ def on_update_interval():
                     lava
                 """))
             tiles.set_wall_at(tiles.get_tile_location(index, lava_level * -1 + 102), False)
-game.on_update_interval(2000, on_update_interval)
-
-def on_update_interval2():
-    global bola_fuego, paloma, rayo
-    if level_game == 1:
-        bola_fuego = sprites.create(assets.image("""
-            myImage4
-        """), SpriteKind.Bola)
-        tiles.place_on_random_tile(bola_fuego, assets.tile("""
-            meta
-        """))
-        bola_fuego.ay = 500
-    elif level_game == 2:
-        paloma = sprites.create(assets.image("""
-            myImage6
-        """), SpriteKind.Paloma)
-        tiles.place_on_random_tile(paloma, assets.tile("""
-            meta
-        """))
-        paloma.ay = 500
-    elif level_game == 3:
-        rayo = sprites.create(assets.image("""
-            myImage7
-        """), SpriteKind.Rayo)
-        tiles.place_on_random_tile(rayo, assets.tile("""
-            meta
-        """))
-        rayo.ay = 500
-    else:
-        pass
 game.on_update_interval(2000, on_update_interval2)
 
 def on_forever():
