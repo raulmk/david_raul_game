@@ -402,9 +402,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         if (saltos == 2) {
             mySprite.vy += Salto
+            music.play(music.createSoundEffect(WaveShape.Sine, 308, 575, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
             saltos = 1
         } else if (saltos == 1) {
             mySprite.vy += Salto
+            music.play(music.createSoundEffect(WaveShape.Sine, 308, 575, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
             saltos = 0
         }
     }
@@ -427,6 +429,7 @@ scene.onHitWall(SpriteKind.Bola, function (sprite3, location) {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite33, location5) {
     info.startCountdown(5)
     power_up = true
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
     tiles.setTileAt(location5, assets.tile`myTile6`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite223, location223) {
@@ -649,6 +652,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Paloma, function (sprite7, other
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite33, location5) {
     info.startCountdown(5)
     power_up = true
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
     tiles.setTileAt(location5, assets.tile`cielo0`)
 })
 function create_sprite_menu () {
@@ -886,7 +890,7 @@ forever(function () {
         }
         if (info.life() == 0) {
             if (level_game == 1) {
-                game.setGameOverMessage(false, "¿EN EL PRIMER NIVEL?¿EN SERIO?")
+                game.setGameOverMessage(false, "¿TANTO DUELE?")
                 game.gameOver(false)
             } else if (level_game == 2) {
                 game.setGameOverMessage(false, "PALOMA DE LA ¿PAZ?")

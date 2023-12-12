@@ -444,9 +444,13 @@ def on_a_pressed():
     if level == 1:
         if saltos == 2:
             mySprite.vy += Salto
+            music.play(music.melody_playable(music.zapped),
+                music.PlaybackMode.IN_BACKGROUND)
             saltos = 1
         elif saltos == 1:
             mySprite.vy += Salto
+            music.play(music.melody_playable(music.zapped),
+                music.PlaybackMode.IN_BACKGROUND)
             saltos = 0
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
@@ -479,6 +483,8 @@ def on_overlap_tile5(sprite332, location52):
     global power_up
     info.start_countdown(5)
     power_up = True
+    music.play(music.melody_playable(music.ba_ding),
+        music.PlaybackMode.IN_BACKGROUND)
     tiles.set_tile_at(location52, assets.tile("""
         myTile6
     """))
@@ -729,6 +735,8 @@ def on_overlap_tile7(sprite333, location53):
     global power_up
     info.start_countdown(5)
     power_up = True
+    music.play(music.melody_playable(music.ba_ding),
+        music.PlaybackMode.IN_BACKGROUND)
     tiles.set_tile_at(location53, assets.tile("""
         cielo0
     """))
@@ -1011,7 +1019,7 @@ def on_forever():
             two = False
         if info.life() == 0:
             if level_game == 1:
-                game.set_game_over_message(False, "¿EN EL PRIMER NIVEL?¿EN SERIO?")
+                game.set_game_over_message(False, "¿TANTO DUELE?")
                 game.game_over(False)
             elif level_game == 2:
                 game.set_game_over_message(False, "PALOMA DE LA ¿PAZ?")
