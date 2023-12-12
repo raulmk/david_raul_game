@@ -210,6 +210,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Bola, function (sprite4, otherSp
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lava`, function (sprite222, location222) {
     if (level == 1) {
+        game.setGameOverMessage(false, "!TE HAS QUEMADO!")
         game.gameOver(false)
     }
 })
@@ -884,7 +885,16 @@ forever(function () {
             two = false
         }
         if (info.life() == 0) {
-            game.gameOver(false)
+            if (level_game == 1) {
+                game.setGameOverMessage(false, "¿EN EL PRIMER NIVEL?¿EN SERIO?")
+                game.gameOver(false)
+            } else if (level_game == 2) {
+                game.setGameOverMessage(false, "PALOMA DE LA ¿PAZ?")
+                game.gameOver(false)
+            } else if (level_game == 3) {
+                game.setGameOverMessage(false, "TE HA DADO UN CALAMBRE...")
+                game.gameOver(false)
+            }
         }
         if (power_up == true) {
             Salto = -500

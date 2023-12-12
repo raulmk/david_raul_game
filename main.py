@@ -216,6 +216,7 @@ sprites.on_overlap(SpriteKind.player, SpriteKind.Bola, on_on_overlap3)
 
 def on_overlap_tile2(sprite222, location222):
     if level == 1:
+        game.set_game_over_message(False, "!TE HAS QUEMADO!")
         game.game_over(False)
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
@@ -1009,7 +1010,15 @@ def on_forever():
             one = False
             two = False
         if info.life() == 0:
-            game.game_over(False)
+            if level_game == 1:
+                game.set_game_over_message(False, "¿EN EL PRIMER NIVEL?¿EN SERIO?")
+                game.game_over(False)
+            elif level_game == 2:
+                game.set_game_over_message(False, "PALOMA DE LA ¿PAZ?")
+                game.game_over(False)
+            elif level_game == 3:
+                game.set_game_over_message(False, "TE HA DADO UN CALAMBRE...")
+                game.game_over(False)
         if power_up == True:
             Salto = -500
         else:
