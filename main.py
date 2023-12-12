@@ -9,6 +9,8 @@ class SpriteKind:
 
 def on_on_overlap(sprite, otherSprite):
     sprites.destroy(otherSprite, effects.star_field, 100)
+    music.play(music.melody_playable(music.zapped),
+        music.PlaybackMode.IN_BACKGROUND)
     info.change_life_by(-1)
     scene.camera_shake(4, 200)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Rayo, on_on_overlap)
@@ -29,6 +31,8 @@ sprites.on_overlap(SpriteKind.Cursor, SpriteKind.Button, on_on_overlap2)
 
 def on_overlap_tile(sprite2, location2):
     if level == 1 and controller.up.is_pressed():
+        music.play(music.string_playable("C E C - - - - - ", 1200),
+            music.PlaybackMode.IN_BACKGROUND)
         animation.run_image_animation(mySprite,
             assets.animation("""
                 subiranimacion
@@ -210,6 +214,8 @@ def create_sprite_raimon():
 
 def on_on_overlap3(sprite4, otherSprite2):
     sprites.destroy(otherSprite2, effects.fire, 100)
+    music.play(music.melody_playable(music.small_crash),
+        music.PlaybackMode.IN_BACKGROUND)
     scene.camera_shake(4, 200)
     info.change_life_by(-1)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Bola, on_on_overlap3)
@@ -412,6 +418,8 @@ def on_overlap_tile3(sprite22, location22):
     tiles.set_tile_at(location22, assets.tile("""
         cielo0
     """))
+    music.play(music.melody_playable(music.magic_wand),
+        music.PlaybackMode.IN_BACKGROUND)
     info.change_life_by(1)
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
@@ -444,12 +452,26 @@ def on_a_pressed():
     if level == 1:
         if saltos == 2:
             mySprite.vy += Salto
-            music.play(music.melody_playable(music.zapped),
+            music.play(music.create_sound_effect(WaveShape.SINE,
+                    308,
+                    575,
+                    255,
+                    0,
+                    200,
+                    SoundExpressionEffect.NONE,
+                    InterpolationCurve.LINEAR),
                 music.PlaybackMode.IN_BACKGROUND)
             saltos = 1
         elif saltos == 1:
             mySprite.vy += Salto
-            music.play(music.melody_playable(music.zapped),
+            music.play(music.create_sound_effect(WaveShape.SINE,
+                    308,
+                    575,
+                    255,
+                    0,
+                    200,
+                    SoundExpressionEffect.NONE,
+                    InterpolationCurve.LINEAR),
                 music.PlaybackMode.IN_BACKGROUND)
             saltos = 0
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
@@ -464,11 +486,13 @@ def on_overlap_tile4(sprite33, location5):
         
         def on_throttle():
             global level_game
+            music.play(music.string_playable("C D E F G A B C5 ", 800),
+                music.PlaybackMode.IN_BACKGROUND)
             level_game = 1 + level_game
             sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+            level_game_cntrl()
         timer.throttle("action", 5000, on_throttle)
         
-        level_game_cntrl()
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         meta
@@ -478,6 +502,16 @@ scene.on_overlap_tile(SpriteKind.player,
 def on_hit_wall(sprite3, location):
     sprites.destroy(sprite3, effects.fire, 100)
 scene.on_hit_wall(SpriteKind.Bola, on_hit_wall)
+
+def cinematica_final():
+    game.set_game_over_effect(True, effects.confetti)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Rayo)
+    music.stop_all_sounds()
+    music.play(music.create_song(assets.song("""
+            muscia_menu
+        """)),
+        music.PlaybackMode.LOOPING_IN_BACKGROUND)
 
 def on_overlap_tile5(sprite332, location52):
     global power_up
@@ -498,6 +532,8 @@ def on_overlap_tile6(sprite223, location223):
     tiles.set_tile_at(location223, assets.tile("""
         myTile6
     """))
+    music.play(music.melody_playable(music.magic_wand),
+        music.PlaybackMode.IN_BACKGROUND)
     info.change_life_by(1)
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
@@ -508,6 +544,7 @@ scene.on_overlap_tile(SpriteKind.player,
 def Level_Control():
     global Play, Help, lore, Cursor2, level_game
     if level == 0:
+        music.stop_all_sounds()
         sprites.destroy(sprite34)
         sprite35 = create_sprite_menu()
         sprite35.set_position(81, 60)
@@ -528,6 +565,7 @@ def Level_Control():
         lore.set_position(76, 21)
         controller.move_sprite(Cursor2)
     elif level == 1:
+        music.stop_all_sounds()
         sprites.destroy_all_sprites_of_kind(SpriteKind.player)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Fondo)
         sprites.destroy(Play)
@@ -540,7 +578,7 @@ def Level_Control():
         sprites.destroy(sprite34)
         sprites.destroy(sprite35)
         info.set_life(3)
-        level_game = 1
+        level_game = 3
         level_game_cntrl()
 def create_sprite_infierno():
     global sprite322
@@ -727,6 +765,15 @@ scene.on_hit_wall(SpriteKind.Paloma, on_hit_wall3)
 
 def on_on_overlap4(sprite7, otherSprite4):
     info.change_life_by(-1)
+    music.play(music.create_sound_effect(WaveShape.SAWTOOTH,
+            308,
+            4543,
+            119,
+            137,
+            200,
+            SoundExpressionEffect.VIBRATO,
+            InterpolationCurve.CURVE),
+        music.PlaybackMode.IN_BACKGROUND)
     sprites.destroy(otherSprite4, effects.disintegrate, 100)
     scene.camera_shake(4, 200)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Paloma, on_on_overlap4)
@@ -877,6 +924,10 @@ def level_game_cntrl():
     global mySprite, lava_level
     if level_game == 1:
         sprites.destroy(mySprite)
+        music.play(music.create_song(assets.song("""
+                musica_infierno
+            """)),
+            music.PlaybackMode.LOOPING_IN_BACKGROUND)
         tiles.set_current_tilemap(tilemap("""
             level0
         """))
@@ -895,6 +946,11 @@ def level_game_cntrl():
         lava_level = 0
         scene.camera_follow_sprite(mySprite)
     elif level_game == 2:
+        music.stop_all_sounds()
+        music.play(music.create_song(assets.song("""
+                musica_tierra
+            """)),
+            music.PlaybackMode.LOOPING_IN_BACKGROUND)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Rayo)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Paloma)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Bola)
@@ -920,6 +976,11 @@ def level_game_cntrl():
         game.show_long_text("RAIMON: ¡¡Joder que todavía esta subiendo la lava!!",
             DialogLayout.BOTTOM)
     elif level_game == 3:
+        music.stop_all_sounds()
+        music.play(music.create_song(assets.song("""
+                musica_cielo
+            """)),
+            music.PlaybackMode.LOOPING_IN_BACKGROUND)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Rayo)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Paloma)
         sprites.destroy_all_sprites_of_kind(SpriteKind.Bola)
@@ -943,8 +1004,11 @@ def level_game_cntrl():
         game.show_long_text("RAIMON: ¡Ahí está Dios!", DialogLayout.BOTTOM)
         game.show_long_text("RAIMON: Espero no quemarme con la lava...",
             DialogLayout.BOTTOM)
-two = False
-one = False
+    elif level_game == 4:
+        game.set_game_over_message(True,
+            "a`pfjgñaeohnjpoertjhñesoñadjthñerstjhrsoñijthpertjhmsopriropithjnsrpopithnjmspñithnjmsñlrhnjslthnslthnjmrsliothnjmrsohjmndloiyjhdoktyjdyhtjdtkjdtukuk")
+        game.game_over(True)
+        cinematica_final()
 rayo: Sprite = None
 paloma: Sprite = None
 bola_fuego: Sprite = None
@@ -1009,14 +1073,12 @@ def on_update_interval2():
 game.on_update_interval(1000, on_update_interval2)
 
 def on_forever():
-    global saltos, one, two, Salto
+    global saltos, Salto
     if level == 1:
         mySprite.say_text(level_game)
         mySprite.ay = 1000
         if mySprite.is_hitting_tile(CollisionDirection.BOTTOM):
             saltos = 2
-            one = False
-            two = False
         if info.life() == 0:
             if level_game == 1:
                 game.set_game_over_message(False, "¿TANTO DUELE?")
@@ -1030,5 +1092,10 @@ def on_forever():
         if power_up == True:
             Salto = -500
         else:
-            Salto = -300
+            Salto = -1000
+    else:
+        music.play(music.create_song(assets.song("""
+                muscia_menu
+            """)),
+            music.PlaybackMode.UNTIL_DONE)
 forever(on_forever)

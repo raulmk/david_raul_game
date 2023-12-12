@@ -8,6 +8,7 @@ namespace SpriteKind {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Rayo, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.starField, 100)
+    music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.InBackground)
     info.changeLifeBy(-1)
     scene.cameraShake(4, 200)
 })
@@ -28,6 +29,7 @@ sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, othe
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (sprite2, location2) {
     if (level == 1 && controller.up.isPressed()) {
+        music.play(music.stringPlayable("C E C - - - - - ", 1200), music.PlaybackMode.InBackground)
         animation.runImageAnimation(
         mySprite,
         assets.animation`subiranimacion`,
@@ -205,6 +207,7 @@ function create_sprite_raimon () {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Bola, function (sprite4, otherSprite2) {
     sprites.destroy(otherSprite2, effects.fire, 100)
+    music.play(music.melodyPlayable(music.smallCrash), music.PlaybackMode.InBackground)
     scene.cameraShake(4, 200)
     info.changeLifeBy(-1)
 })
@@ -376,6 +379,7 @@ function cinematica () {
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite22, location22) {
     tiles.setTileAt(location22, assets.tile`cielo0`)
+    music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.InBackground)
     info.changeLifeBy(1)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -417,15 +421,23 @@ info.onCountdownEnd(function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite33, location5) {
     if (level == 1) {
         timer.throttle("action", 5000, function () {
+            music.play(music.stringPlayable("C D E F G A B C5 ", 800), music.PlaybackMode.InBackground)
             level_game = 1 + level_game
             sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+            level_game_cntrl()
         })
-        level_game_cntrl()
     }
 })
 scene.onHitWall(SpriteKind.Bola, function (sprite3, location) {
     sprites.destroy(sprite3, effects.fire, 100)
 })
+function cinematica_final () {
+    game.setGameOverEffect(true, effects.confetti)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Rayo)
+    music.stopAllSounds()
+    music.play(music.createSong(assets.song`muscia_menu`), music.PlaybackMode.LoopingInBackground)
+}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite33, location5) {
     info.startCountdown(5)
     power_up = true
@@ -434,11 +446,13 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite33
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite223, location223) {
     tiles.setTileAt(location223, assets.tile`myTile6`)
+    music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.InBackground)
     info.changeLifeBy(1)
 })
 function Level_Control () {
     let sprite35: Sprite;
 if (level == 0) {
+        music.stopAllSounds()
         sprites.destroy(sprite34)
         sprite35 = create_sprite_menu()
         sprite35.setPosition(81, 60)
@@ -451,6 +465,7 @@ if (level == 0) {
         lore.setPosition(76, 21)
         controller.moveSprite(Cursor2)
     } else if (level == 1) {
+        music.stopAllSounds()
         sprites.destroyAllSpritesOfKind(SpriteKind.Player)
         sprites.destroyAllSpritesOfKind(SpriteKind.Fondo)
         sprites.destroy(Play)
@@ -463,7 +478,7 @@ if (level == 0) {
         sprites.destroy(sprite34)
         sprites.destroy(sprite35)
         info.setLife(3)
-        level_game = 1
+        level_game = 3
         level_game_cntrl()
     }
 }
@@ -646,6 +661,16 @@ scene.onHitWall(SpriteKind.Paloma, function (sprite6, location4) {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Paloma, function (sprite7, otherSprite4) {
     info.changeLifeBy(-1)
+    music.play(music.createSoundEffect(
+    WaveShape.Sawtooth,
+    308,
+    4543,
+    119,
+    137,
+    200,
+    SoundExpressionEffect.Vibrato,
+    InterpolationCurve.Curve
+    ), music.PlaybackMode.InBackground)
     sprites.destroy(otherSprite4, effects.disintegrate, 100)
     scene.cameraShake(4, 200)
 })
@@ -784,6 +809,7 @@ function create_sprite_menu () {
 function level_game_cntrl () {
     if (level_game == 1) {
         sprites.destroy(mySprite)
+        music.play(music.createSong(assets.song`musica_infierno`), music.PlaybackMode.LoopingInBackground)
         tiles.setCurrentTilemap(tilemap`level0`)
         sprites.destroy(sprite34)
         mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
@@ -796,6 +822,8 @@ function level_game_cntrl () {
         lava_level = 0
         scene.cameraFollowSprite(mySprite)
     } else if (level_game == 2) {
+        music.stopAllSounds()
+        music.play(music.createSong(assets.song`musica_tierra`), music.PlaybackMode.LoopingInBackground)
         sprites.destroyAllSpritesOfKind(SpriteKind.Rayo)
         sprites.destroyAllSpritesOfKind(SpriteKind.Paloma)
         sprites.destroyAllSpritesOfKind(SpriteKind.Bola)
@@ -813,6 +841,8 @@ function level_game_cntrl () {
         game.showLongText("RAIMON: ...", DialogLayout.Bottom)
         game.showLongText("RAIMON: ¡¡Joder que todavía esta subiendo la lava!!", DialogLayout.Bottom)
     } else if (level_game == 3) {
+        music.stopAllSounds()
+        music.play(music.createSong(assets.song`musica_cielo`), music.PlaybackMode.LoopingInBackground)
         sprites.destroyAllSpritesOfKind(SpriteKind.Rayo)
         sprites.destroyAllSpritesOfKind(SpriteKind.Paloma)
         sprites.destroyAllSpritesOfKind(SpriteKind.Bola)
@@ -829,10 +859,12 @@ function level_game_cntrl () {
         lava_level = 0
         game.showLongText("RAIMON: ¡Ahí está Dios!", DialogLayout.Bottom)
         game.showLongText("RAIMON: Espero no quemarme con la lava...", DialogLayout.Bottom)
+    } else if (level_game == 4) {
+        game.setGameOverMessage(true, "a`pfjgñaeohnjpoertjhñesoñadjthñerstjhrsoñijthpertjhmsopriropithjnsrpopithnjmspñithnjmsñlrhnjslthnslthnjmrsliothnjmrsohjmndloiyjhdoktyjdyhtjdtkjdtukuk")
+        game.gameOver(true)
+        cinematica_final()
     }
 }
-let two = false
-let one = false
 let rayo: Sprite = null
 let paloma: Sprite = null
 let bola_fuego: Sprite = null
@@ -885,8 +917,6 @@ forever(function () {
         mySprite.ay = 1000
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             saltos = 2
-            one = false
-            two = false
         }
         if (info.life() == 0) {
             if (level_game == 1) {
@@ -903,7 +933,9 @@ forever(function () {
         if (power_up == true) {
             Salto = -500
         } else {
-            Salto = -300
+            Salto = -1000
         }
+    } else {
+        music.play(music.createSong(assets.song`muscia_menu`), music.PlaybackMode.UntilDone)
     }
 })
