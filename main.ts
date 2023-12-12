@@ -18,7 +18,8 @@ sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, othe
         Level_Control()
     }
     if (otherSprite3 == Help && controller.A.isPressed()) {
-        level = 2
+        help2()
+        sprites.destroyAllSpritesOfKind(SpriteKind.Fondo)
         Level_Control()
     }
     if (otherSprite3 == lore && controller.A.isPressed()) {
@@ -223,7 +224,7 @@ function cinematica () {
     sprites.destroy(Help)
     sprites.destroy(lore)
     sprites.destroy(Cursor2)
-    sprites.destroy(sprite332)
+    sprites.destroy(sprite3322)
     game.showLongText("MAMÁ: Raimon... Raimon ! Despierta, llegas tarde al cole...RAIMOOOON !", DialogLayout.Bottom)
     game.showLongText("RAI: Mmmm...ya voy mamá. Eh? He dicho mamá? Vivo solo desde hace ya mucho, debe haber sido un sueño. Que hora será?", DialogLayout.Bottom)
     game.showLongText("LAS 12:15 !!!!", DialogLayout.Bottom)
@@ -431,18 +432,50 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite33, lo
 scene.onHitWall(SpriteKind.Bola, function (sprite3, location) {
     sprites.destroy(sprite3, effects.fire, 100)
 })
-function cinematica_final () {
-    game.setGameOverEffect(true, effects.confetti)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Rayo)
-    music.stopAllSounds()
-    music.play(music.createSong(assets.song`muscia_menu`), music.PlaybackMode.LoopingInBackground)
+function help2 () {
+    scene.setBackgroundImage(assets.image`pizarra`)
+    sprites.destroy(Play)
+    sprites.destroy(Help)
+    sprites.destroy(lore)
+    sprites.destroy(Cursor2)
+    sprites.destroy(sprite3322)
+    sprite34 = sprites.create(assets.image`logo`, SpriteKind.Fondo)
+    sprite34.changeScale(3, ScaleAnchor.Middle)
+    sprite34.setPosition(80, 45)
+    game.showLongText("Bienvenido a RAI'SE", DialogLayout.Bottom)
+    game.showLongText("Lo primero que debes hacer es mirar el LORE", DialogLayout.Bottom)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image`myImage11`, SpriteKind.Fondo)
+    sprite34.changeScale(3, ScaleAnchor.Middle)
+    sprite34.setPosition(80, 45)
+    game.showLongText("", DialogLayout.Bottom)
+    game.showLongText("Una vez hecho, estarás listo para jugar. Pero antes déjame darte unos consejos: ", DialogLayout.Bottom)
+    game.showLongText("Con el botón A", DialogLayout.Bottom)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image`boton_a`, SpriteKind.Fondo)
+    sprite34.changeScale(1, ScaleAnchor.Middle)
+    sprite34.setPosition(80, 45)
+    game.showLongText("", DialogLayout.Bottom)
+    game.showLongText("Raimon podrá saltar hasta dos veces.", DialogLayout.Bottom)
+    game.showLongText("Con los botones de dirección: ", DialogLayout.Bottom)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image`myImage12`, SpriteKind.Fondo)
+    sprite34.changeScale(1, ScaleAnchor.Middle)
+    sprite34.setPosition(80, 45)
+    game.showLongText("Movemos a Raimon de izquierda a derecha y en caso de haber escaleras al pulsar hacia arriba subirá las escaleras sin tener que saltar.", DialogLayout.Bottom)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image`logo`, SpriteKind.Fondo)
+    sprite34.changeScale(3, ScaleAnchor.Middle)
+    sprite34.setPosition(80, 45)
+    game.showLongText("Hay 3 niveles en total y caerán proyectiles del cielo así que ándate con ojo.", DialogLayout.Bottom)
+    game.showLongText("Por último, cada cierto tiempo sube el nivel de lava, así que ten cuidado y no te duermas.", DialogLayout.Bottom)
+    game.showLongText("Todo listo, mucha suerte y que seas el mejor profesor del mundo !", DialogLayout.Bottom)
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite33, location5) {
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite333, location53) {
     info.startCountdown(5)
     power_up = true
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
-    tiles.setTileAt(location5, assets.tile`myTile6`)
+    tiles.setTileAt(location53, assets.tile`cielo0`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite223, location223) {
     tiles.setTileAt(location223, assets.tile`myTile6`)
@@ -474,11 +507,11 @@ if (level == 0) {
         sprites.destroy(Cursor2)
         sprites.destroy(sprite36)
         sprites.destroy(sprite322)
-        sprites.destroy(sprite332)
+        sprites.destroy(sprite3322)
         sprites.destroy(sprite34)
         sprites.destroy(sprite35)
         info.setLife(3)
-        level_game = 3
+        level_game = 1
         level_game_cntrl()
     }
 }
@@ -661,27 +694,18 @@ scene.onHitWall(SpriteKind.Paloma, function (sprite6, location4) {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Paloma, function (sprite7, otherSprite4) {
     info.changeLifeBy(-1)
-    music.play(music.createSoundEffect(
-    WaveShape.Sawtooth,
-    308,
-    4543,
-    119,
-    137,
-    200,
-    SoundExpressionEffect.Vibrato,
-    InterpolationCurve.Curve
-    ), music.PlaybackMode.InBackground)
+    music.play(music.createSoundEffect(WaveShape.Sawtooth, 308, 4543, 119, 137, 200, SoundExpressionEffect.Vibrato, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
     sprites.destroy(otherSprite4, effects.disintegrate, 100)
     scene.cameraShake(4, 200)
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite33, location5) {
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite332, location52) {
     info.startCountdown(5)
     power_up = true
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
-    tiles.setTileAt(location5, assets.tile`cielo0`)
+    tiles.setTileAt(location52, assets.tile`myTile6`)
 })
 function create_sprite_menu () {
-    sprite332 = sprites.create(img`
+    sprite3322 = sprites.create(img`
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccceeeeeeeeccccccbbbbd1ddd111111111111d1dddddddddddddddd111111d11111111111111dd111dddddbb
         ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcfccecccceeeebeeeecccbbbbbbd111111111111111d11dddd11111111ddd111111ddd11111111111111dd1d1dddddd
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccfcceecceeeebbbbbbbbbbbbbbddd1d111111111111d11ddd1111111111111111111dd11111111111111ddd111ddddb
@@ -804,7 +828,7 @@ function create_sprite_menu () {
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         `, SpriteKind.Fondo)
     // sprite2.set_position(76, 81)
-    return sprite332
+    return sprite3322
 }
 function level_game_cntrl () {
     if (level_game == 1) {
@@ -860,9 +884,7 @@ function level_game_cntrl () {
         game.showLongText("RAIMON: ¡Ahí está Dios!", DialogLayout.Bottom)
         game.showLongText("RAIMON: Espero no quemarme con la lava...", DialogLayout.Bottom)
     } else if (level_game == 4) {
-        game.setGameOverMessage(true, "a`pfjgñaeohnjpoertjhñesoñadjthñerstjhrsoñijthpertjhmsopriropithjnsrpopithnjmspñithnjmsñlrhnjslthnslthnjmrsliothnjmrsohjmndloiyjhdoktyjdyhtjdtkjdtukuk")
         game.gameOver(true)
-        cinematica_final()
     }
 }
 let rayo: Sprite = null
@@ -875,7 +897,7 @@ let power_up = false
 let Salto = 0
 let saltos = 0
 let sprite34: Sprite = null
-let sprite332: Sprite = null
+let sprite3322: Sprite = null
 let Cursor2: Sprite = null
 let sprite36: Sprite = null
 let mySprite: Sprite = null
@@ -913,7 +935,6 @@ game.onUpdateInterval(1000, function () {
 })
 forever(function () {
     if (level == 1) {
-        mySprite.sayText(level_game)
         mySprite.ay = 1000
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             saltos = 2
@@ -933,7 +954,7 @@ forever(function () {
         if (power_up == true) {
             Salto = -500
         } else {
-            Salto = -1000
+            Salto = -300
         }
     } else {
         music.play(music.createSong(assets.song`muscia_menu`), music.PlaybackMode.UntilDone)

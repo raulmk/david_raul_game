@@ -21,7 +21,8 @@ def on_on_overlap2(sprite32, otherSprite3):
         level = 1
         Level_Control()
     if otherSprite3 == Help and controller.A.is_pressed():
-        level = 2
+        help2()
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Fondo)
         Level_Control()
     if otherSprite3 == lore and controller.A.is_pressed():
         cinematica()
@@ -503,28 +504,76 @@ def on_hit_wall(sprite3, location):
     sprites.destroy(sprite3, effects.fire, 100)
 scene.on_hit_wall(SpriteKind.Bola, on_hit_wall)
 
-def cinematica_final():
-    game.set_game_over_effect(True, effects.confetti)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.player)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Rayo)
-    music.stop_all_sounds()
-    music.play(music.create_song(assets.song("""
-            muscia_menu
-        """)),
-        music.PlaybackMode.LOOPING_IN_BACKGROUND)
+def help2():
+    global sprite34
+    scene.set_background_image(assets.image("""
+        pizarra
+    """))
+    sprites.destroy(Play)
+    sprites.destroy(Help)
+    sprites.destroy(lore)
+    sprites.destroy(Cursor2)
+    sprites.destroy(sprite3322)
+    sprite34 = sprites.create(assets.image("""
+        logo
+    """), SpriteKind.Fondo)
+    sprite34.change_scale(3, ScaleAnchor.MIDDLE)
+    sprite34.set_position(80, 45)
+    game.show_long_text("Bienvenido a RAI'SE", DialogLayout.BOTTOM)
+    game.show_long_text("Lo primero que debes hacer es mirar el LORE",
+        DialogLayout.BOTTOM)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image("""
+        myImage11
+    """), SpriteKind.Fondo)
+    sprite34.change_scale(3, ScaleAnchor.MIDDLE)
+    sprite34.set_position(80, 45)
+    game.show_long_text("", DialogLayout.BOTTOM)
+    game.show_long_text("Una vez hecho, estarás listo para jugar. Pero antes déjame darte unos consejos: ",
+        DialogLayout.BOTTOM)
+    game.show_long_text("Con el botón A", DialogLayout.BOTTOM)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image("""
+        boton_a
+    """), SpriteKind.Fondo)
+    sprite34.change_scale(1, ScaleAnchor.MIDDLE)
+    sprite34.set_position(80, 45)
+    game.show_long_text("", DialogLayout.BOTTOM)
+    game.show_long_text("Raimon podrá saltar hasta dos veces.", DialogLayout.BOTTOM)
+    game.show_long_text("Con los botones de dirección: ", DialogLayout.BOTTOM)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image("""
+        myImage12
+    """), SpriteKind.Fondo)
+    sprite34.change_scale(1, ScaleAnchor.MIDDLE)
+    sprite34.set_position(80, 45)
+    game.show_long_text("Movemos a Raimon de izquierda a derecha y en caso de haber escaleras al pulsar hacia arriba subirá las escaleras sin tener que saltar.",
+        DialogLayout.BOTTOM)
+    sprites.destroy(sprite34)
+    sprite34 = sprites.create(assets.image("""
+        logo
+    """), SpriteKind.Fondo)
+    sprite34.change_scale(3, ScaleAnchor.MIDDLE)
+    sprite34.set_position(80, 45)
+    game.show_long_text("Hay 3 niveles en total y caerán proyectiles del cielo así que ándate con ojo.",
+        DialogLayout.BOTTOM)
+    game.show_long_text("Por último, cada cierto tiempo sube el nivel de lava, así que ten cuidado y no te duermas.",
+        DialogLayout.BOTTOM)
+    game.show_long_text("Todo listo, mucha suerte y que seas el mejor profesor del mundo !",
+        DialogLayout.BOTTOM)
 
-def on_overlap_tile5(sprite332, location52):
+def on_overlap_tile5(sprite333, location53):
     global power_up
     info.start_countdown(5)
     power_up = True
     music.play(music.melody_playable(music.ba_ding),
         music.PlaybackMode.IN_BACKGROUND)
-    tiles.set_tile_at(location52, assets.tile("""
-        myTile6
+    tiles.set_tile_at(location53, assets.tile("""
+        cielo0
     """))
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
-        myTile18
+        myTile17
     """),
     on_overlap_tile5)
 
@@ -578,7 +627,7 @@ def Level_Control():
         sprites.destroy(sprite34)
         sprites.destroy(sprite35)
         info.set_life(3)
-        level_game = 3
+        level_game = 1
         level_game_cntrl()
 def create_sprite_infierno():
     global sprite322
@@ -778,18 +827,18 @@ def on_on_overlap4(sprite7, otherSprite4):
     scene.camera_shake(4, 200)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Paloma, on_on_overlap4)
 
-def on_overlap_tile7(sprite333, location53):
+def on_overlap_tile7(sprite332, location52):
     global power_up
     info.start_countdown(5)
     power_up = True
     music.play(music.melody_playable(music.ba_ding),
         music.PlaybackMode.IN_BACKGROUND)
-    tiles.set_tile_at(location53, assets.tile("""
-        cielo0
+    tiles.set_tile_at(location52, assets.tile("""
+        myTile6
     """))
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
-        myTile17
+        myTile18
     """),
     on_overlap_tile7)
 
@@ -1005,10 +1054,7 @@ def level_game_cntrl():
         game.show_long_text("RAIMON: Espero no quemarme con la lava...",
             DialogLayout.BOTTOM)
     elif level_game == 4:
-        game.set_game_over_message(True,
-            "a`pfjgñaeohnjpoertjhñesoñadjthñerstjhrsoñijthpertjhmsopriropithjnsrpopithnjmspñithnjmsñlrhnjslthnslthnjmrsliothnjmrsohjmndloiyjhdoktyjdyhtjdtkjdtukuk")
         game.game_over(True)
-        cinematica_final()
 rayo: Sprite = None
 paloma: Sprite = None
 bola_fuego: Sprite = None
@@ -1075,7 +1121,6 @@ game.on_update_interval(1000, on_update_interval2)
 def on_forever():
     global saltos, Salto
     if level == 1:
-        mySprite.say_text(level_game)
         mySprite.ay = 1000
         if mySprite.is_hitting_tile(CollisionDirection.BOTTOM):
             saltos = 2
@@ -1092,7 +1137,7 @@ def on_forever():
         if power_up == True:
             Salto = -500
         else:
-            Salto = -1000
+            Salto = -300
     else:
         music.play(music.create_song(assets.song("""
                 muscia_menu
