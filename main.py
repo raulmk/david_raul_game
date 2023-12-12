@@ -456,7 +456,7 @@ def on_overlap_tile4(sprite33, location5):
             global level_game
             level_game = 1 + level_game
             sprites.destroy_all_sprites_of_kind(SpriteKind.player)
-        timer.throttle("action", 1000, on_throttle)
+        timer.throttle("action", 5000, on_throttle)
         
         level_game_cntrl()
 scene.on_overlap_tile(SpriteKind.player,

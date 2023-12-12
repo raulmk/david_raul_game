@@ -410,7 +410,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite33, location5) {
     if (level == 1) {
-        timer.throttle("action", 1000, function () {
+        timer.throttle("action", 5000, function () {
             level_game = 1 + level_game
             sprites.destroyAllSpritesOfKind(SpriteKind.Player)
         })
