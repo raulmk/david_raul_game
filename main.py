@@ -232,7 +232,7 @@ def cinematica():
     sprites.destroy(Help)
     sprites.destroy(lore)
     sprites.destroy(Cursor2)
-    sprites.destroy(sprite332)
+    sprites.destroy(sprite3322)
     game.show_long_text("MAMÁ: Raimon... Raimon ! Despierta, llegas tarde al cole...RAIMOOOON !",
         DialogLayout.BOTTOM)
     game.show_long_text("RAI: Mmmm...ya voy mamá. Eh? He dicho mamá? Vivo solo desde hace ya mucho, debe haber sido un sueño. Que hora será?",
@@ -442,12 +442,17 @@ def on_a_pressed():
     global saltos
     if level == 1:
         if saltos == 2:
-            mySprite.vy += -1000
+            mySprite.vy += Salto
             saltos = 1
         elif saltos == 1:
-            mySprite.vy += -1000
+            mySprite.vy += Salto
             saltos = 0
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_countdown_end():
+    global power_up
+    power_up = False
+info.on_countdown_end(on_countdown_end)
 
 def on_overlap_tile4(sprite33, location5):
     if level == 1:
@@ -469,7 +474,20 @@ def on_hit_wall(sprite3, location):
     sprites.destroy(sprite3, effects.fire, 100)
 scene.on_hit_wall(SpriteKind.Bola, on_hit_wall)
 
-def on_overlap_tile5(sprite223, location223):
+def on_overlap_tile5(sprite332, location52):
+    global power_up
+    info.start_countdown(5)
+    power_up = True
+    tiles.set_tile_at(location52, assets.tile("""
+        myTile6
+    """))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        myTile18
+    """),
+    on_overlap_tile5)
+
+def on_overlap_tile6(sprite223, location223):
     tiles.set_tile_at(location223, assets.tile("""
         myTile6
     """))
@@ -478,7 +496,7 @@ scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         myTile10
     """),
-    on_overlap_tile5)
+    on_overlap_tile6)
 
 def Level_Control():
     global Play, Help, lore, Cursor2, level_game
@@ -511,7 +529,7 @@ def Level_Control():
         sprites.destroy(Cursor2)
         sprites.destroy(sprite36)
         sprites.destroy(sprite322)
-        sprites.destroy(sprite332)
+        sprites.destroy(sprite3322)
         sprites.destroy(sprite34)
         sprites.destroy(sprite35)
         info.set_life(3)
@@ -706,9 +724,22 @@ def on_on_overlap4(sprite7, otherSprite4):
     scene.camera_shake(4, 200)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Paloma, on_on_overlap4)
 
+def on_overlap_tile7(sprite333, location53):
+    global power_up
+    info.start_countdown(5)
+    power_up = True
+    tiles.set_tile_at(location53, assets.tile("""
+        cielo0
+    """))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        myTile17
+    """),
+    on_overlap_tile7)
+
 def create_sprite_menu():
-    global sprite332
-    sprite332 = sprites.create(img("""
+    global sprite3322
+    sprite3322 = sprites.create(img("""
             fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccceeeeeeeeccccccbbbbd1ddd111111111111d1dddddddddddddddd111111d11111111111111dd111dddddbb
                     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcfccecccceeeebeeeecccbbbbbbd111111111111111d11dddd11111111ddd111111ddd11111111111111dd1d1dddddd
                     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccfcceecceeeebbbbbbbbbbbbbbddd1d111111111111d11ddd1111111111111111111dd11111111111111ddd111ddddb
@@ -832,7 +863,7 @@ def create_sprite_menu():
         """),
         SpriteKind.Fondo)
     # sprite2.set_position(76, 81)
-    return sprite332
+    return sprite3322
 def level_game_cntrl():
     global mySprite, lava_level
     if level_game == 1:
@@ -911,9 +942,11 @@ bola_fuego: Sprite = None
 lava_level = 0
 borrar_sprite: Sprite = None
 sprite322: Sprite = None
+power_up = False
+Salto = 0
 saltos = 0
 sprite34: Sprite = None
-sprite332: Sprite = None
+sprite3322: Sprite = None
 Cursor2: Sprite = None
 sprite36: Sprite = None
 mySprite: Sprite = None
@@ -967,7 +1000,7 @@ def on_update_interval2():
 game.on_update_interval(1000, on_update_interval2)
 
 def on_forever():
-    global saltos, one, two
+    global saltos, one, two, Salto
     if level == 1:
         mySprite.say_text(level_game)
         mySprite.ay = 1000
@@ -977,4 +1010,8 @@ def on_forever():
             two = False
         if info.life() == 0:
             game.game_over(False)
+        if power_up == True:
+            Salto = -500
+        else:
+            Salto = -300
 forever(on_forever)

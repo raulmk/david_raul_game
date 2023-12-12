@@ -400,13 +400,16 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         if (saltos == 2) {
-            mySprite.vy += -1000
+            mySprite.vy += Salto
             saltos = 1
         } else if (saltos == 1) {
-            mySprite.vy += -1000
+            mySprite.vy += Salto
             saltos = 0
         }
     }
+})
+info.onCountdownEnd(function () {
+    power_up = false
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite33, location5) {
     if (level == 1) {
@@ -419,6 +422,11 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`meta`, function (sprite33, lo
 })
 scene.onHitWall(SpriteKind.Bola, function (sprite3, location) {
     sprites.destroy(sprite3, effects.fire, 100)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite33, location5) {
+    info.startCountdown(5)
+    power_up = true
+    tiles.setTileAt(location5, assets.tile`myTile6`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite223, location223) {
     tiles.setTileAt(location223, assets.tile`myTile6`)
@@ -637,6 +645,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Paloma, function (sprite7, other
     sprites.destroy(otherSprite4, effects.disintegrate, 100)
     scene.cameraShake(4, 200)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite33, location5) {
+    info.startCountdown(5)
+    power_up = true
+    tiles.setTileAt(location5, assets.tile`cielo0`)
+})
 function create_sprite_menu () {
     sprite332 = sprites.create(img`
         fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccceeeeeeeeccccccbbbbd1ddd111111111111d1dddddddddddddddd111111d11111111111111dd111dddddbb
@@ -821,6 +834,8 @@ let bola_fuego: Sprite = null
 let lava_level = 0
 let borrar_sprite: Sprite = null
 let sprite322: Sprite = null
+let power_up = false
+let Salto = 0
 let saltos = 0
 let sprite34: Sprite = null
 let sprite332: Sprite = null
@@ -870,6 +885,11 @@ forever(function () {
         }
         if (info.life() == 0) {
             game.gameOver(false)
+        }
+        if (power_up == true) {
+            Salto = -500
+        } else {
+            Salto = -300
         }
     }
 })
