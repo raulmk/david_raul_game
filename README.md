@@ -29,9 +29,8 @@ Importante, este juego está pensado para speedrunners (haciéndolo más adaptad
 ***
 ## Instalación ⤵️
 ***
-1. Clona este repositorio: git clone https://github.com/raulmk/david_raul_game.git
-2. Abre el juego en tu entorno de desarrollo preferido.
-3. Ejecuta el juego y ¡disfruta!
+1. Clona este repositorio al entorno de MakeCodeArcade: https://github.com/raulmk/david_raul_game.git
+2. Abre el proyecto ¡disfruta!
 ***
 ## Autores 👬
 ***
