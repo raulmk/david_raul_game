@@ -32,12 +32,12 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (spr
     if (level == 1 && controller.up.isPressed()) {
         music.play(music.stringPlayable("C E C - - - - - ", 1200), music.PlaybackMode.InBackground)
         animation.runImageAnimation(
-        mySprite,
+        Raimon,
         assets.animation`subiranimacion`,
         200,
         false
         )
-        mySprite.vy += -30
+        Raimon.vy += -30
     }
 })
 function create_sprite_raimon () {
@@ -223,7 +223,7 @@ function cinematica () {
     sprites.destroy(Play)
     sprites.destroy(Help)
     sprites.destroy(lore)
-    sprites.destroy(Cursor2)
+    sprites.destroy(Selector)
     sprites.destroy(sprite3322)
     game.showLongText("MAMÁ: Raimon... Raimon ! Despierta, llegas tarde al cole...RAIMOOOON !", DialogLayout.Bottom)
     game.showLongText("RAI: Mmmm...ya voy mamá. Eh? He dicho mamá? Vivo solo desde hace ya mucho, debe haber sido un sueño. Que hora será?", DialogLayout.Bottom)
@@ -359,12 +359,12 @@ function cinematica () {
     scene.setBackgroundImage(assets.image`myImage2`)
     game.showLongText("RAÚL: QUEEEEEE??? LO NECESITO PARA ACCEDER A LA UNIVERSIDAD !! YA NO ERES EL MEJOR PROFE QUE HE TENIDO...", DialogLayout.Bottom)
     scene.setBackgroundImage(assets.image`fondomyImage`)
-    sprite34 = create_sprite_raimon()
-    sprite34.setPosition(81, 20)
+    sprite_fondo = create_sprite_raimon()
+    sprite_fondo.setPosition(81, 20)
     game.showLongText("Lo que más quería Raimon en la vida era al FCBarcelona y a sus alumnos. Esta frase le afectó y recapacitó sobre si mismo, si estaba haciendo lo correcto, si era el mejor profesor que podían tener... Esa misma noche, después de pensar horas y horas, exclamó al cielo...", DialogLayout.Bottom)
     game.showLongText("RAIMON: PORQUE DIOS?? QUE HE HECHO YO PARA MERECER ESTO?? DESEO VENDER MI ALMA A CAMBIO DE CONVERTIRME EN EL MEJOR PROFESOR QUE PUEDAN TENER !!", DialogLayout.Bottom)
-    sprite34 = create_sprite_infierno()
-    sprite34.setPosition(81, 60)
+    sprite_fondo = create_sprite_infierno()
+    sprite_fondo.setPosition(81, 60)
     game.showLongText("RAIMON: Eh? Qué hago aquí? Es esto un sueño?", DialogLayout.Bottom)
     game.showLongText("DIABLO: JA JA JA ! Bienvenido a tu nuevo hogar, me has concedido tu alma a cambio de ser el mejor profesor que podían tener muajajaja", DialogLayout.Bottom)
     game.showLongText("RAIMON: Exacto! Pero por qué estoy aquí? Debería estar dando clase... ese era el trato!", DialogLayout.Bottom)
@@ -372,10 +372,10 @@ function cinematica () {
     game.showLongText("RAIMON: Ya lo soy? En serio?", DialogLayout.Bottom)
     game.showLongText("DIABLO: No me malinterpretes, ya sabes como va la Educación en catalunya. Hoy en día ponen a cualquiera MUAJAJAJA", DialogLayout.Bottom)
     game.showLongText("RAIMON: Serás cabrón... y nunca mejor dicho. Debo hacer algo, esto no puede quedar así...", DialogLayout.Bottom)
-    sprite34 = create_sprite_raimon()
-    sprite34.setPosition(81, 20)
+    sprite_fondo = create_sprite_raimon()
+    sprite_fondo.setPosition(81, 20)
     game.showLongText("RAIMON: Tengo que salir de aquí, subir hasta lo más alto y rogar a DIOS por clemencia. Yo no soy así, que he hecho? Debo demostrar quien soy, lo que valgo y que soy el mejor profesor que pueden tener. LO HARÉ POR VOSOTROS ALUMNOS, VOY A DEMOSTRAROS QUE SOY EL MEJOR PROFE DEL MUNDOOO !!", DialogLayout.Bottom)
-    sprite34 = eliminar_sprite()
+    sprite_fondo = eliminar_sprite()
     scene.cameraShake(4, 500)
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite22, location22) {
@@ -386,7 +386,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite22,
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         animation.runImageAnimation(
-        mySprite,
+        Raimon,
         assets.animation`camina_derecha`,
         200,
         false
@@ -396,7 +396,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         animation.runImageAnimation(
-        mySprite,
+        Raimon,
         assets.animation`camina_izquierda`,
         200,
         false
@@ -406,11 +406,11 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
         if (saltos == 2) {
-            mySprite.vy += Salto
+            Raimon.vy += Salto
             music.play(music.createSoundEffect(WaveShape.Sine, 308, 575, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
             saltos = 1
         } else if (saltos == 1) {
-            mySprite.vy += Salto
+            Raimon.vy += Salto
             music.play(music.createSoundEffect(WaveShape.Sine, 308, 575, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
             saltos = 0
         }
@@ -537,36 +537,36 @@ function help2 () {
     sprites.destroy(Play)
     sprites.destroy(Help)
     sprites.destroy(lore)
-    sprites.destroy(Cursor2)
+    sprites.destroy(Selector)
     sprites.destroy(sprite3322)
-    sprite34 = sprites.create(assets.image`logo`, SpriteKind.Fondo)
-    sprite34.changeScale(3, ScaleAnchor.Middle)
-    sprite34.setPosition(80, 45)
+    sprite_fondo = sprites.create(assets.image`logo`, SpriteKind.Fondo)
+    sprite_fondo.changeScale(3, ScaleAnchor.Middle)
+    sprite_fondo.setPosition(80, 45)
     game.showLongText("Bienvenido a RAI'SE", DialogLayout.Bottom)
     game.showLongText("Lo primero que debes hacer es mirar el LORE", DialogLayout.Bottom)
-    sprites.destroy(sprite34)
-    sprite34 = sprites.create(assets.image`myImage11`, SpriteKind.Fondo)
-    sprite34.changeScale(3, ScaleAnchor.Middle)
-    sprite34.setPosition(80, 45)
+    sprites.destroy(sprite_fondo)
+    sprite_fondo = sprites.create(assets.image`myImage11`, SpriteKind.Fondo)
+    sprite_fondo.changeScale(3, ScaleAnchor.Middle)
+    sprite_fondo.setPosition(80, 45)
     game.showLongText("", DialogLayout.Bottom)
     game.showLongText("Una vez hecho, estarás listo para jugar. Pero antes déjame darte unos consejos: ", DialogLayout.Bottom)
     game.showLongText("Con el botón A", DialogLayout.Bottom)
-    sprites.destroy(sprite34)
-    sprite34 = sprites.create(assets.image`boton_a`, SpriteKind.Fondo)
-    sprite34.changeScale(1, ScaleAnchor.Middle)
-    sprite34.setPosition(80, 45)
+    sprites.destroy(sprite_fondo)
+    sprite_fondo = sprites.create(assets.image`boton_a`, SpriteKind.Fondo)
+    sprite_fondo.changeScale(1, ScaleAnchor.Middle)
+    sprite_fondo.setPosition(80, 45)
     game.showLongText("", DialogLayout.Bottom)
     game.showLongText("Raimon podrá saltar hasta dos veces.", DialogLayout.Bottom)
     game.showLongText("Con los botones de dirección: ", DialogLayout.Bottom)
-    sprites.destroy(sprite34)
-    sprite34 = sprites.create(assets.image`myImage12`, SpriteKind.Fondo)
-    sprite34.changeScale(1, ScaleAnchor.Middle)
-    sprite34.setPosition(80, 45)
+    sprites.destroy(sprite_fondo)
+    sprite_fondo = sprites.create(assets.image`myImage12`, SpriteKind.Fondo)
+    sprite_fondo.changeScale(1, ScaleAnchor.Middle)
+    sprite_fondo.setPosition(80, 45)
     game.showLongText("Movemos a Raimon de izquierda a derecha y en caso de haber escaleras al pulsar hacia arriba subirá las escaleras sin tener que saltar.", DialogLayout.Bottom)
-    sprites.destroy(sprite34)
-    sprite34 = sprites.create(assets.image`logo`, SpriteKind.Fondo)
-    sprite34.changeScale(2, ScaleAnchor.Middle)
-    sprite34.setPosition(80, 45)
+    sprites.destroy(sprite_fondo)
+    sprite_fondo = sprites.create(assets.image`logo`, SpriteKind.Fondo)
+    sprite_fondo.changeScale(2, ScaleAnchor.Middle)
+    sprite_fondo.setPosition(80, 45)
     game.showLongText("Hay 3 niveles en total y caerán proyectiles del cielo así que ándate con ojo.", DialogLayout.Bottom)
     game.showLongText("Por último, cada cierto tiempo sube el nivel de lava, así que ten cuidado y no te duermas.", DialogLayout.Bottom)
     game.showLongText("Todo listo, mucha suerte y que seas el mejor profesor del mundo !", DialogLayout.Bottom)
@@ -586,30 +586,25 @@ function Level_Control () {
     let sprite35: Sprite;
 if (level == 0) {
         music.stopAllSounds()
-        sprites.destroy(sprite34)
-        sprite35 = create_sprite_menu()
-        sprite35.setPosition(81, 60)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_menu()
+        sprite_fondo.setPosition(81, 60)
         Play = sprites.create(assets.image`play_button`, SpriteKind.Button)
         Help = sprites.create(assets.image`help_button`, SpriteKind.Button)
         lore = sprites.create(assets.image`myImage3`, SpriteKind.Button)
-        Cursor2 = sprites.create(assets.image`user`, SpriteKind.Cursor)
+        Selector = sprites.create(assets.image`user`, SpriteKind.Cursor)
         Play.setPosition(35, 91)
         Help.setPosition(120, 91)
         lore.setPosition(76, 21)
-        controller.moveSprite(Cursor2)
+        controller.moveSprite(Selector)
     } else if (level == 1) {
         music.stopAllSounds()
-        sprites.destroyAllSpritesOfKind(SpriteKind.Player)
         sprites.destroyAllSpritesOfKind(SpriteKind.Fondo)
         sprites.destroyAllSpritesOfKind(SpriteKind.Cursor)
         sprites.destroyAllSpritesOfKind(SpriteKind.Button)
-        sprites.destroy(sprite34)
-        sprites.destroy(sprite322)
-        sprites.destroy(sprite3322)
-        sprites.destroy(sprite34)
-        sprites.destroy(sprite35)
+        sprites.destroy(sprite_fondo)
         info.setLife(3)
-        level_game = 3
+        level_game = 1
         level_game_cntrl()
     }
 }
@@ -1026,31 +1021,28 @@ function create_sprite_menu () {
 }
 function level_game_cntrl () {
     if (level_game == 1) {
-        sprites.destroy(mySprite)
         music.play(music.createSong(assets.song`musica_infierno`), music.PlaybackMode.LoopingInBackground)
         tiles.setCurrentTilemap(tilemap`level0`)
-        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
-        tiles.placeOnRandomTile(mySprite, assets.tile`trueinicio2`)
-        controller.moveSprite(mySprite, 150, 0)
-        mySprite.ay = 800
+        Raimon = sprites.create(assets.image`user`, SpriteKind.Player)
+        tiles.placeOnRandomTile(Raimon, assets.tile`trueinicio2`)
+        controller.moveSprite(Raimon, 150, 0)
+        Raimon.ay = 800
         // tiles.place_on_random_tile(mySprite, img("""
         // trueinicio1
         // """))
         lava_level = 0
-        scene.cameraFollowSprite(mySprite)
+        scene.cameraFollowSprite(Raimon)
     } else if (level_game == 2) {
         music.stopAllSounds()
         music.play(music.createSong(assets.song`musica_tierra`), music.PlaybackMode.LoopingInBackground)
-        sprites.destroyAllSpritesOfKind(SpriteKind.Rayo)
-        sprites.destroyAllSpritesOfKind(SpriteKind.Paloma)
         sprites.destroyAllSpritesOfKind(SpriteKind.Bola)
-        sprites.destroy(mySprite)
+        sprites.destroy(Raimon)
         tiles.setCurrentTilemap(tilemap`level2`)
-        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
-        tiles.placeOnRandomTile(mySprite, assets.tile`myTile13`)
-        controller.moveSprite(mySprite, 150, 0)
-        mySprite.ay = 800
-        scene.cameraFollowSprite(mySprite)
+        Raimon = sprites.create(assets.image`user`, SpriteKind.Player)
+        tiles.placeOnRandomTile(Raimon, assets.tile`myTile13`)
+        controller.moveSprite(Raimon, 150, 0)
+        Raimon.ay = 800
+        scene.cameraFollowSprite(Raimon)
         lava_level = 0
         game.showLongText("RAIMON: ¡He conseguido escapar del infierno!", DialogLayout.Bottom)
         game.showLongText("RAIMON: ...", DialogLayout.Bottom)
@@ -1058,70 +1050,70 @@ function level_game_cntrl () {
     } else if (level_game == 3) {
         music.stopAllSounds()
         music.play(music.createSong(assets.song`musica_cielo`), music.PlaybackMode.LoopingInBackground)
-        sprites.destroyAllSpritesOfKind(SpriteKind.Rayo)
         sprites.destroyAllSpritesOfKind(SpriteKind.Paloma)
         sprites.destroyAllSpritesOfKind(SpriteKind.Bola)
-        sprites.destroy(mySprite)
+        sprites.destroy(Raimon)
         tiles.setCurrentTilemap(tilemap`level6`)
-        mySprite = sprites.create(assets.image`user`, SpriteKind.Player)
-        tiles.placeOnRandomTile(mySprite, assets.tile`myTile`)
-        controller.moveSprite(mySprite, 150, 0)
-        mySprite.ay = 800
-        scene.cameraFollowSprite(mySprite)
+        Raimon = sprites.create(assets.image`user`, SpriteKind.Player)
+        tiles.placeOnRandomTile(Raimon, assets.tile`myTile`)
+        controller.moveSprite(Raimon, 150, 0)
+        Raimon.ay = 800
+        scene.cameraFollowSprite(Raimon)
         lava_level = 0
         game.showLongText("RAIMON: ¡Ahí está Dios!", DialogLayout.Bottom)
         game.showLongText("RAIMON: Espero no quemarme con la lava...", DialogLayout.Bottom)
     } else if (level_game == 4) {
+        let sprite52: Sprite = null
         tiles.setCurrentTilemap(tilemap`nivel6`)
-        sprite52 = create_sprite_dios()
-        sprite52.setScale(1, ScaleAnchor.Middle)
+        sprite_fondo = create_sprite_dios()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: HOLA HIJO MÍO...", DialogLayout.Bottom)
-        sprites.destroy(sprite52)
-        sprite34 = create_sprite_raimon()
-        sprite34.setPosition(81, 20)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_raimon()
+        sprite_fondo.setPosition(81, 20)
         game.showLongText("RAIMON: ¿Messi eres tú?", DialogLayout.Bottom)
-        sprites.destroy(sprite34)
-        sprite52 = create_sprite_dios()
-        sprite52.setScale(1, ScaleAnchor.Middle)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_dios()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: ¿QUIÉN SINÓ?", DialogLayout.Bottom)
-        sprites.destroy(sprite52)
-        sprite34 = create_sprite_raimon()
-        sprite34.setPosition(81, 20)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_raimon()
+        sprite_fondo.setPosition(81, 20)
         game.showLongText("RAIMON: oh dios mío... mmm esto si que no me lo esperaba...", DialogLayout.Bottom)
-        sprites.destroy(sprite34)
-        sprite52 = create_sprite_dios()
-        sprite52.setScale(1, ScaleAnchor.Middle)
-        game.showLongText("DIOS: LO SÉ... RECUERDO TUS LLANTOS DE FELICIDAD CUANDO EL BARÇA GANÓ EL SEXTETE. ERES UN FIEL CREYENTE POR ESO TE ABRÍ LAS PUERTAS DEL CIELO.", DialogLayout.Bottom)
-        sprites.destroy(sprite52)
-        sprite34 = create_sprite_raimon()
-        sprite34.setPosition(81, 20)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_dios()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
+        game.showLongText("DIOS: LO SÉ... RECUERDO TUS LLANTOS DE FELICIDAD CUANDO EL BARÇA GANÓ EL SEXTETE. SOS UN FIEL CREYENTE POR ESO TE ABRÍ LAS PUERTAS DEL CIELO.", DialogLayout.Bottom)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_raimon()
+        sprite_fondo.setPosition(81, 20)
         game.showLongText("RAIMON: SIEMPRE HE SIDO FAN DE TI! Por favor, necesito tu ayuda. Verás...", DialogLayout.Bottom)
-        sprites.destroy(sprite34)
-        sprite52 = create_sprite_dios()
-        sprite52.setScale(1, ScaleAnchor.Middle)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_dios()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: LO SÉ TODO. NO TE PREOCUPÉS YO ME ENCARGO HACETE A UN LADO.", DialogLayout.Bottom)
-        sprites.destroy(sprite52)
-        sprite52 = create_sprite_bobo()
-        sprite52.setScale(1, ScaleAnchor.Middle)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_bobo()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: ANDÁ PA ALLÁ BOOOBO !", DialogLayout.Bottom)
         sprites.destroy(sprite52)
-        sprite34 = create_sprite_infierno()
-        sprite34.setPosition(81, 60)
+        sprite_fondo = create_sprite_infierno()
+        sprite_fondo.setPosition(81, 60)
         game.showLongText("El Diablo desciende asustado hacia el infierno al escuchar a DIOS.", DialogLayout.Bottom)
-        sprites.destroy(sprite34)
-        sprite52 = create_sprite_dios()
-        sprite52.setScale(1, ScaleAnchor.Middle)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_dios()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: YA SE FUE EL PELOTUDO, AHORA ESCUCHÁME. RAIMON ERES CULÉ, NO HAY MEJOR PERSONA QUE VOS. CONFIÁ EN TI, ESCUCHÁ A TUS ALUMNOS Y SIGUE SIENDO COMO SOS. VALÉS MUCHO.", DialogLayout.Bottom)
-        sprite34 = create_sprite_raimon()
-        sprite34.setPosition(81, 20)
+        sprite_fondo = create_sprite_raimon()
+        sprite_fondo.setPosition(81, 20)
         game.showLongText("RAIMON: Tienes razón Leo...", DialogLayout.Bottom)
-        sprites.destroy(sprite34)
-        sprite52 = create_sprite_dios()
-        sprite52.setScale(1, ScaleAnchor.Middle)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_dios()
+        sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: DIOS. LEO ES COMO ME LLAMAN EN LA TIERRA.", DialogLayout.Bottom)
-        sprites.destroy(sprite52)
-        sprite34 = create_sprite_raimon()
-        sprite34.setPosition(81, 20)
+        sprites.destroy(sprite_fondo)
+        sprite_fondo = create_sprite_raimon()
+        sprite_fondo.setPosition(81, 20)
         game.showLongText("RAMON: Perdón. Te prometo que a partir de ahora escucharé más a mis alumnos. Seré...", DialogLayout.Bottom)
         game.setGameOverMessage(true, "¡EL MEJOR PROFE!")
         game.gameOver(true)
@@ -1130,18 +1122,17 @@ function level_game_cntrl () {
 let rayo: Sprite = null
 let paloma: Sprite = null
 let bola_fuego: Sprite = null
-let sprite52: Sprite = null
 let lava_level = 0
 let borrar_sprite: Sprite = null
 let sprite322: Sprite = null
 let power_up = false
 let Salto = 0
 let saltos = 0
-let sprite34: Sprite = null
+let sprite_fondo: Sprite = null
 let sprite3322: Sprite = null
-let Cursor2: Sprite = null
+let Selector: Sprite = null
 let sprite36: Sprite = null
-let mySprite: Sprite = null
+let Raimon: Sprite = null
 let lore: Sprite = null
 let Help: Sprite = null
 let Play: Sprite = null
@@ -1176,8 +1167,8 @@ game.onUpdateInterval(1000, function () {
 })
 forever(function () {
     if (level == 1) {
-        mySprite.ay = 1000
-        if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+        Raimon.ay = 1000
+        if (Raimon.isHittingTile(CollisionDirection.Bottom)) {
             saltos = 2
         }
         if (info.life() == 0) {
@@ -1195,7 +1186,7 @@ forever(function () {
         if (power_up == true) {
             Salto = -500
         } else {
-            Salto = -250
+            Salto = -300
         }
     } else {
         music.play(music.createSong(assets.song`muscia_menu`), music.PlaybackMode.UntilDone)
