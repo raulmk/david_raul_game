@@ -4,7 +4,8 @@
     "dependencies": {
         "device": "*",
         "Timers": "github:microsoft/arcade-timers#v1.1.0",
-        "pxt-countup": "github:shakao/pxt-countup#v0.0.2"
+        "pxt-countup": "github:shakao/pxt-countup#v0.0.2",
+        "block-menu": "github:riknoll/arcade-custom-menu#v0.0.1"
     },
     "files": [
         "main.blocks",

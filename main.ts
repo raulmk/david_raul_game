@@ -15,6 +15,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Rayo, function (sprite, otherSpr
 sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Button, function (sprite32, otherSprite3) {
     if (otherSprite3 == Play && controller.A.isPressed()) {
         level = 1
+        blockMenu.showMenu(["FÁCIL", "NORMAL", "DIFÍCIL"], MenuStyle.List, MenuLocation.Center)
         Level_Control()
     }
     if (otherSprite3 == Help && controller.A.isPressed()) {
@@ -583,8 +584,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite22
     info.changeLifeBy(1)
 })
 function Level_Control () {
-    let sprite35: Sprite;
-if (level == 0) {
+    if (level == 0) {
         music.stopAllSounds()
         sprites.destroy(sprite_fondo)
         sprite_fondo = create_sprite_menu()
@@ -1063,7 +1063,6 @@ function level_game_cntrl () {
         game.showLongText("RAIMON: ¡Ahí está Dios!", DialogLayout.Bottom)
         game.showLongText("RAIMON: Espero no quemarme con la lava...", DialogLayout.Bottom)
     } else if (level_game == 4) {
-        let sprite52: Sprite = null
         tiles.setCurrentTilemap(tilemap`nivel6`)
         sprite_fondo = create_sprite_dios()
         sprite_fondo.setScale(1, ScaleAnchor.Middle)
@@ -1096,7 +1095,7 @@ function level_game_cntrl () {
         sprite_fondo = create_sprite_bobo()
         sprite_fondo.setScale(1, ScaleAnchor.Middle)
         game.showLongText("DIOS: ANDÁ PA ALLÁ BOOOBO !", DialogLayout.Bottom)
-        sprites.destroy(sprite52)
+        sprites.destroy(sprite_fondo)
         sprite_fondo = create_sprite_infierno()
         sprite_fondo.setPosition(81, 60)
         game.showLongText("El Diablo desciende asustado hacia el infierno al escuchar a DIOS.", DialogLayout.Bottom)
