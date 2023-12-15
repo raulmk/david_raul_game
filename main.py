@@ -19,9 +19,6 @@ def on_on_overlap2(sprite32, otherSprite3):
     global level
     if otherSprite3 == Play and controller.A.is_pressed():
         level = 1
-        blockMenu.show_menu(["FÁCIL", "NORMAL", "DIFÍCIL"],
-            MenuStyle.LIST,
-            MenuLocation.FULL_SCREEN)
         Level_Control()
     if otherSprite3 == Help and controller.A.is_pressed():
         help2()
@@ -420,39 +417,6 @@ def cinematica():
     sprite_fondo = eliminar_sprite()
     scene.camera_shake(4, 500)
 
-def on_overlap_tile3(sprite22, location22):
-    tiles.set_tile_at(location22, assets.tile("""
-        cielo0
-    """))
-    music.play(music.melody_playable(music.magic_wand),
-        music.PlaybackMode.IN_BACKGROUND)
-    info.change_life_by(1)
-scene.on_overlap_tile(SpriteKind.player,
-    assets.tile("""
-        myTile7
-    """),
-    on_overlap_tile3)
-
-def on_right_pressed():
-    if level == 1:
-        animation.run_image_animation(Raimon,
-            assets.animation("""
-                camina_derecha
-            """),
-            200,
-            False)
-controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
-
-def on_left_pressed():
-    if level == 1:
-        animation.run_image_animation(Raimon,
-            assets.animation("""
-                camina_izquierda
-            """),
-            200,
-            False)
-controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
-
 def on_a_pressed():
     global saltos
     if level == 1:
@@ -481,6 +445,29 @@ def on_a_pressed():
                 music.PlaybackMode.IN_BACKGROUND)
             saltos = 0
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_overlap_tile3(sprite22, location22):
+    tiles.set_tile_at(location22, assets.tile("""
+        cielo0
+    """))
+    music.play(music.melody_playable(music.magic_wand),
+        music.PlaybackMode.IN_BACKGROUND)
+    info.change_life_by(1)
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        myTile7
+    """),
+    on_overlap_tile3)
+
+def on_left_pressed():
+    if level == 1:
+        animation.run_image_animation(Raimon,
+            assets.animation("""
+                camina_izquierda
+            """),
+            200,
+            False)
+controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def on_countdown_end():
     global power_up
@@ -668,6 +655,16 @@ def help2():
         DialogLayout.BOTTOM)
     game.show_long_text("Todo listo, mucha suerte y que seas el mejor profesor del mundo !",
         DialogLayout.BOTTOM)
+
+def on_right_pressed():
+    if level == 1:
+        animation.run_image_animation(Raimon,
+            assets.animation("""
+                camina_derecha
+            """),
+            200,
+            False)
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def on_overlap_tile5(sprite333, location53):
     global power_up
